@@ -56,7 +56,7 @@ public class FileProcessor
 
             try
             {
-                SaveAsAsync(fileStream, newFileName);
+                await SaveAsAsync(fileStream, newFileName);
             }
             #region error handling
             catch (NotSupportedException e)
@@ -96,7 +96,7 @@ public class FileProcessor
     /// <exception cref="NotSupportedException">The stream is not readable or the image format is not supported.</exception>
     /// <exception cref="InvalidImageContentException">The encoded image contains invalid content.</exception>
     /// <exception cref="UnknownImageFormatException">The encoded image format is unknown.</exception>
-    private async void SaveAsAsync(Stream fileStream, string fileName)
+    private async Task SaveAsAsync(Stream fileStream, string fileName)
     {
         await Image.IdentifyAsync(fileStream);
         
