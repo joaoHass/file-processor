@@ -63,15 +63,18 @@ public class FileProcessor
             {
                 _logger.LogWarning("Tried to process a file that is not supported. Exception: {0}", e.ToString());
                 FilesStatus.Add(ProcessedFileStatus.FailedUnsupportedFormat, newFileName);
+                continue;
             }
             catch (UnknownImageFormatException e)
             {
                 _logger.LogWarning("Tried to process a file that contains unknown format. Exception: {0}", e);
                 FilesStatus.Add(ProcessedFileStatus.FailedUnknownFormat, newFileName);
+                continue;
             }
             catch (Exception e)
             {
                 FilesStatus.Add(ProcessedFileStatus.Failed, newFileName);
+                continue;
             }
             #endregion
             
