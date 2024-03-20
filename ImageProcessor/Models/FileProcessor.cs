@@ -69,11 +69,6 @@ public class FileProcessor
                 _logger.LogWarning("Tried to process a file that contains unknown format. Exception: {0}", e);
                 FilesStatus.Add(ProcessedFileStatus.FailedUnknownFormat, newFileName);
             }
-            catch (ArgumentException e)
-            {
-                _logger.LogError("Provided file name is null or whitespace");
-                FilesStatus.Add(ProcessedFileStatus.Failed, newFileName);
-            }
             catch (Exception e)
             {
                 FilesStatus.Add(ProcessedFileStatus.Failed, newFileName);
