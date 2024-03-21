@@ -144,6 +144,8 @@ public class FileProcessor
                 _logger.LogWarning("The target file TYPE is not recognized.");
                 throw new ArgumentException("The target file TYPE is not recognized.");
         }
+        
+        TargetFileType = targetFileType;    
     }
     
 }
