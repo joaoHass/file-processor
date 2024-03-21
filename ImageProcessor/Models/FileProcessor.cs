@@ -3,6 +3,11 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Formats.Webp;
+using SixLabors.ImageSharp.Processing;
 
 namespace ImageProcessor.Models;
 
@@ -17,6 +22,7 @@ namespace ImageProcessor.Models;
 public class FileProcessor
 {
     private readonly ILogger<FileProcessor> _logger;
+    private ImageEncoder Encoder { get;  set; }
     
     public string FolderDestination { get; set; }
     public IDictionary<Stream, string> Files { get; set; }
@@ -118,4 +124,33 @@ public class FileProcessor
                 break;
         }
     }
+
+    private void DefineEncoderType(string targetFileType)
+    {
+        if (string.IsNullOrWhiteSpace(targetFileType))
+        {
+            _logger.LogWarning("The target file TYPE is invalid.");
+            throw new ArgumentNullException("The target file TYPE is null or empty.");
+        }
+        
+        switch (targetFileType.ToLower())
+        {
+            case "png":
+                Encoder = new PngEncoder();
+                break;
+            case "jpeg":
+                Encoder = new JpegEncoder();
+                break;
+            case "bmp":
+                Encoder = new BmpEncoder();
+                break;
+            case "webp":
+                Encoder = new WebpEncoder();
+                break;
+            default:
+                _logger.LogWarning("The target file TYPE is not recognized.");
+                throw new ArgumentException("The target file TYPE is not recognized.");
+        }
+    }
+    
 }
