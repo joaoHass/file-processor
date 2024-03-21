@@ -107,24 +107,17 @@ public class FileProcessor
         var filePath = Path.Join(FolderDestination, fileName);
         var originalImage = await Image.LoadAsync(fileStream);
         
-       // TODO: What if the target file type does not exist? 
-        switch (TargetFileType.ToLower())
-        {
-            case "png":
-                await originalImage.SaveAsPngAsync($"{filePath}.png");
-                break;
-            case "jpeg":
-                await originalImage.SaveAsJpegAsync($"{filePath}.jpeg");
-                break;
-            case "bmp":
-                await originalImage.SaveAsBmpAsync($"{filePath}.bmp");
-                break;
-            case "webp":
-                await originalImage.SaveAsWebpAsync($"{filePath}.webp");
-                break;
-        }
+        await originalImage.SaveAsync(filePath, Encoder);
     }
-
+    
+    /// <summary>
+    /// Defines which Encoder to use based on the targetFileType
+    /// </summary>
+    /// <param name="targetFileType">The extension target type whitout the dot. Ex: "png", "jpeg", etc.</param>
+    /// <exception cref="ArgumentNullException">Thrown if the targetFileType is null or whitespace</exception>
+    /// <exception cref="ArgumentException">
+    /// Thrown if the targetFileType is not recognized. Recognized types are: png, jpeg, bmp
+    /// </exception>
     private void DefineEncoderType(string targetFileType)
     {
         if (string.IsNullOrWhiteSpace(targetFileType))
