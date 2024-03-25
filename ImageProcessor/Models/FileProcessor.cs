@@ -31,10 +31,18 @@ public class FileProcessor
     public bool Compress { get; set; }
     public bool Resize { get; set; }
 
-    public FileProcessor(ILogger<FileProcessor> logger)
+    public FileProcessor(ILogger<FileProcessor> logger,
+        string targetFileType,
+        bool shouldCompress = false,
+        bool shouldResize = false) 
     {
         _logger = logger;
+        
+        
         FolderDestination = "/usr/local/";
+        Compress = shouldCompress;
+        Resize = shouldResize;
+        DefineEncoderType(targetFileType);
     }
 
     public async void Process()
