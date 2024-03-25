@@ -26,7 +26,7 @@ public class FileProcessor
     
     public string FolderDestination { get; set; }
     public IDictionary<Stream, string> Files { get; set; }
-    public IDictionary<ProcessedFileStatus, string> FilesStatus { get; set; }
+    public IDictionary<ProcessedFileStatus, string> FilesStatus { get; private set; }
     public string TargetFileType { get; set; }
     public bool Compress { get; set; }
     public bool Resize { get; set; }
