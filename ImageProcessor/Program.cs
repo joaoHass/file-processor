@@ -1,8 +1,12 @@
+using System.Text;
+using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ImageProcessor.Data;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
+using ImageProcessor.Models;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +20,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorOptions(options =>
+{
+    options.ViewLocationFormats.Add("/Presentation/Views/Shared/{0}.cshtml");
+    options.ViewLocationFormats.Add("/Presentation/Views/{1}/{0}.cshtml");
+});
 
 builder.Services.AddScoped<FileProcessor>();
 builder.Services.AddScoped<ILogger<FileProcessor>, Logger<FileProcessor>>();
@@ -36,7 +44,10 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Presentation/wwwroot"))
+});
 
 app.UseRouting();
 

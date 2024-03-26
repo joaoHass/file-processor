@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using ImageProcessor.Models;
 

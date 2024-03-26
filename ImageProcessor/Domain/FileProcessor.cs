@@ -22,7 +22,7 @@ namespace ImageProcessor.Models;
 public class FileProcessor
 {
     private readonly ILogger<FileProcessor> _logger;
-    private ImageEncoder Encoder { get;  set; }
+    private ImageEncoder Encoder { get; set; }
     
     public string FolderDestination { get; set; }
     public IDictionary<Stream, string> Files { get; set; }
