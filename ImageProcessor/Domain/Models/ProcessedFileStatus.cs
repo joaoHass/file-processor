@@ -1,4 +1,4 @@
-namespace ImageProcessor.Models;
+namespace ImageProcessor.Domain.Models;
 
 public enum ProcessedFileStatus
 {

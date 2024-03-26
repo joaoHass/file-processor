@@ -1,9 +1,12 @@
 using System.Diagnostics;
 using System.Text;
-using Microsoft.AspNetCore.Mvc;
+using ImageProcessor.Domain;
+using ImageProcessor.Domain.Models;
 using ImageProcessor.Models;
+using ImageProcessor.Presentation.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace ImageProcessor.Controllers;
+namespace ImageProcessor.Presentation.Controllers;
 
 public class HomeController(ILogger<HomeController> logger) : Controller
 {

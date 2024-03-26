@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ImageProcessor.Data;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
-using ImageProcessor.Models;
+using ImageProcessor.Domain;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);

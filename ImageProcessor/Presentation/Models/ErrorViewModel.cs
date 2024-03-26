@@ -1,4 +1,4 @@
-namespace ImageProcessor.Models;
+namespace ImageProcessor.Presentation.Models;
 
 public class ErrorViewModel
 {
