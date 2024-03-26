@@ -27,7 +27,26 @@ public class FileProcessor
     public string FolderDestination { get; set; }
     public IDictionary<Stream, string> Files { get; set; }
     public IDictionary<ProcessedFileStatus, string> FilesStatus { get; private set; }
-    public string TargetFileType { get; set; }
+    
+    private string _targetFileType;
+    /// <summary>
+    /// The extension target type without the dot. Ex: "png", "jpeg", etc.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown if the targetFileType is null or whitespace
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    /// Thrown if the targetFileType is not recognized. Recognized types are: png, jpeg, bmp
+    /// </exception>
+    public string TargetFileType
+    {
+        get => _targetFileType;
+        set
+        {
+            DefineEncoderType(value);
+            _targetFileType = value;
+        } 
+    }
     public bool Compress { get; set; }
     public bool Resize { get; set; }
 
@@ -149,8 +168,6 @@ public class FileProcessor
                 _logger.LogWarning("The target file TYPE is not recognized.");
                 throw new ArgumentException("The target file TYPE is not recognized.");
         }
-        
-        TargetFileType = targetFileType;    
     }
     
 }
