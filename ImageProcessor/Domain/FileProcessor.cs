@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using ImageProcessor.Domain.Models;
 using ImageProcessor.Models;
 using SixLabors.ImageSharp;
@@ -61,7 +60,7 @@ public class FileProcessor
         DefineEncoderType(targetFileType);
     }
 
-    public async void Process()
+    public async Task Process()
     {
         #region error handling
         if (string.IsNullOrWhiteSpace(FolderDestination))
