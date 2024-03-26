@@ -31,10 +31,7 @@ public class FileProcessor
     public bool Compress { get; set; }
     public bool Resize { get; set; }
 
-    public FileProcessor(ILogger<FileProcessor> logger,
-        string targetFileType,
-        bool shouldCompress = false,
-        bool shouldResize = false) 
+    public FileProcessor(ILogger<FileProcessor> logger) 
     {
         _logger = logger;
         
