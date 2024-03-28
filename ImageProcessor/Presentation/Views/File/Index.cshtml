@@ -1,0 +1,61 @@
+@{
+    ViewData["Title"] = "File Processing";
+}
+
+<form>
+    <div>
+        <label for="files">Select one or more files:</label>
+        <input id="files" type="file" multiple>
+    </div>
+
+    <div>
+        <label for="targetFileType">Target file type:</label>
+        <select id="targetFileType">
+            <option value="png">PNG</option>
+            <option value="jpeg">JPEG</option>
+            <option value="webp">WEBP</option>
+            <option value="bmp">BMP</option>
+        </select>
+    </div>
+    
+    <fieldset>
+        <legend>Options</legend>
+        
+        <div>
+            <input type="checkbox" id="shouldCompress">
+            <label for="shouldCompress"> Should Compress</label>
+        </div>
+        
+        <div>
+            <input type="checkbox" id="shouldResize">
+            <label for="shouldResize"> Should Resize</label>
+        </div>
+    </fieldset>
+    
+    <input type="submit" value="Upload">
+</form>
+
+@section Scripts
+{
+    <script>
+        const inputFiles = document.querySelector('input[type="file"]')
+        
+        document.querySelector("form").addEventListener('submit', e => {
+            e.preventDefault()
+            
+            let data = new FormData()
+            
+            for (const file of inputFiles.files) {
+                data.append('files', file)
+            }
+            data.append('targetFileType', document.querySelector('#targetFileType').value)
+            data.append('shouldCompress', document.querySelector('#shouldCompress').value === 'on' ? 'true' : 'false')
+            data.append('shouldResize', document.querySelector('#shouldResize').value === 'on' ? 'true' : 'false')
+            
+            fetch('/File/UploadFiles/', {
+                method: 'POST',
+                body: data
+            })
+        })
+    </script>
+}
