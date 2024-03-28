@@ -10,14 +10,6 @@ using SixLabors.ImageSharp.Processing;
 
 namespace ImageProcessor.Domain;
 
-// TODO:
-// Path to where files will be uploaded
-// A class to handle db things
-// One or more file can be processed
-// Files can be in one of these states after trying to be processed:
-// - Success
-// - Processing
-// - Failed (and reason why failed)
 public class FileProcessor
 {
     private readonly ILogger<FileProcessor> _logger;
