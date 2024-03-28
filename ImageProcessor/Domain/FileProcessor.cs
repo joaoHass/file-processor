@@ -52,12 +52,7 @@ public class FileProcessor
     public FileProcessor(ILogger<FileProcessor> logger) 
     {
         _logger = logger;
-        
-        
         FolderDestination = "/usr/local/";
-        Compress = shouldCompress;
-        Resize = shouldResize;
-        DefineEncoderType(targetFileType);
     }
 
     public async Task Process()
