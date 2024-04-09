@@ -40,27 +40,16 @@ public class FileProcessor
     public bool Compress { get; set; }
     public bool Resize { get; set; }
 
-    public FileProcessor(ILogger<FileProcessor> logger) 
+    public FileProcessor() 
     {
-        _logger = logger;
         FolderDestination = "/usr/local/";
     }
 
     public async Task Process()
     {
-        #region error handling
         if (string.IsNullOrWhiteSpace(FolderDestination))
-        {
-            _logger.LogCritical("The target file PATH was not defined.");
             throw new ApplicationException("The target file PATH was not defined.");
-        }
-
-        if (string.IsNullOrWhiteSpace(TargetFileType))
-        {
-            _logger.LogWarning("The target file TYPE was not defined.");
-            throw new ArgumentException("The target file TYPE was not defined.");
-        }
-        #endregion
+        
         
         FilesStatus = new Dictionary<ProcessedFileStatus, string>();
         
@@ -76,13 +65,11 @@ public class FileProcessor
             #region error handling
             catch (NotSupportedException e)
             {
-                _logger.LogWarning("Tried to process a file that is not supported. Exception: {0}", e.ToString());
                 FilesStatus.Add(ProcessedFileStatus.FailedUnsupportedFormat, newFileName);
                 continue;
             }
             catch (UnknownImageFormatException e)
             {
-                _logger.LogWarning("Tried to process a file that contains unknown format. Exception: {0}", e);
                 FilesStatus.Add(ProcessedFileStatus.FailedUnknownFormat, newFileName);
                 continue;
             }
@@ -129,11 +116,8 @@ public class FileProcessor
     /// </exception>
     private void DefineEncoderType(string targetFileType)
     {
-        if (string.IsNullOrWhiteSpace(targetFileType))
-        {
-            _logger.LogWarning("The target file TYPE is invalid.");
-            throw new ArgumentNullException("The target file TYPE is null or empty.");
-        }
+        if (targetFileType == 0)
+            throw new ArgumentNullException(nameof(targetFileType), "The target file TYPE is null or empty.");
         
         switch (targetFileType.ToLower())
         {
@@ -150,7 +134,6 @@ public class FileProcessor
                 Encoder = new WebpEncoder();
                 break;
             default:
-                _logger.LogWarning("The target file TYPE is not recognized.");
                 throw new ArgumentException("The target file TYPE is not recognized.");
         }
     }

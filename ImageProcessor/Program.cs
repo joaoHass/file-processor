@@ -26,9 +26,6 @@ builder.Services.AddControllersWithViews().AddRazorOptions(options =>
     options.ViewLocationFormats.Add("/Presentation/Views/{1}/{0}.cshtml");
 });
 
-builder.Services.AddScoped<FileProcessor>();
-builder.Services.AddScoped<ILogger<FileProcessor>, Logger<FileProcessor>>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

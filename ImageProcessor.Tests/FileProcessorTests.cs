@@ -19,7 +19,7 @@ public class FileProcessorTests(ITestOutputHelper testOutputHelper)
     [Fact]
     public async void Invalid_files_should_be_processed_as_failed()
     {
-        var processor = new FileProcessor(Mock.Of<ILogger<FileProcessor>>());
+        var processor = new FileProcessor();
         processor.TargetFileType = "png";
         processor.Files = new Dictionary<Stream, string>();
         processor.Files.Add(new MemoryStream(Encoding.UTF8.GetBytes("Test file")), "test file name");
