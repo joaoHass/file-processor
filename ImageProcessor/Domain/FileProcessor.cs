@@ -11,49 +11,34 @@ namespace ImageProcessor.Domain;
 
 public class FileProcessor
 {
-    private readonly ILogger<FileProcessor> _logger;
     private ImageEncoder Encoder { get; set; }
-    
-    public string FolderDestination { get; set; }
-    public IDictionary<Stream, string> Files { get; set; }
+
+    private readonly bool _resize;
+    private readonly bool _compress;
+    private readonly string _folderDestination;
+    private readonly IDictionary<Stream, string> _files;
     public IDictionary<ProcessedFileStatus, string> FilesStatus { get; private set; }
     
-    private string _targetFileType;
-    /// <summary>
-    /// The extension target type without the dot. Ex: "png", "jpeg", etc.
-    /// </summary>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown if the targetFileType is null or whitespace
-    /// </exception>
-    /// <exception cref="ArgumentException">
-    /// Thrown if the targetFileType is not recognized. Recognized types are: png, jpeg, bmp
-    /// </exception>
-    public string TargetFileType
+    public FileProcessor(IDictionary<Stream, string> files,
+        FileType targetFileType,
+        bool compress = false,
+        bool resize = false) 
     {
-        get => _targetFileType;
-        set
-        {
-            DefineEncoderType(value);
-            _targetFileType = value;
-        } 
-    }
-    public bool Compress { get; set; }
-    public bool Resize { get; set; }
-
-    public FileProcessor() 
-    {
-        FolderDestination = "/usr/local/";
+        _files = files;
+        _resize = resize;
+        _compress = compress;
+        FilesStatus = new Dictionary<ProcessedFileStatus, string>();
+        
+        _folderDestination = "/usr/local/";
+        DefineEncoderType(targetFileType);
     }
 
     public async Task Process()
     {
-        if (string.IsNullOrWhiteSpace(FolderDestination))
+        if (string.IsNullOrWhiteSpace(_folderDestination))
             throw new ApplicationException("The target file PATH was not defined.");
         
-        
-        FilesStatus = new Dictionary<ProcessedFileStatus, string>();
-        
-        foreach (var file in Files)
+        foreach (var file in _files)
         {
             var fileStream = file.Key;
             var newFileName = Guid.NewGuid().ToString();
@@ -100,7 +85,7 @@ public class FileProcessor
     {
         await Image.IdentifyAsync(fileStream);
         
-        var filePath = Path.Join(FolderDestination, fileName);
+        var filePath = Path.Join(_folderDestination, fileName);
         var originalImage = await Image.LoadAsync(fileStream);
         
         await originalImage.SaveAsync(filePath, Encoder);
@@ -114,23 +99,23 @@ public class FileProcessor
     /// <exception cref="ArgumentException">
     /// Thrown if the targetFileType is not recognized. Recognized types are: png, jpeg, bmp
     /// </exception>
-    private void DefineEncoderType(string targetFileType)
+    private void DefineEncoderType(FileType targetFileType)
     {
         if (targetFileType == 0)
             throw new ArgumentNullException(nameof(targetFileType), "The target file TYPE is null or empty.");
         
-        switch (targetFileType.ToLower())
+        switch (targetFileType)
         {
-            case "png":
+            case FileType.Png:
                 Encoder = new PngEncoder();
                 break;
-            case "jpeg":
+            case FileType.Jpeg:
                 Encoder = new JpegEncoder();
                 break;
-            case "bmp":
+            case FileType.Bmp:
                 Encoder = new BmpEncoder();
                 break;
-            case "webp":
+            case FileType.Webp:
                 Encoder = new WebpEncoder();
                 break;
             default:
