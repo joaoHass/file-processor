@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.Text;
 using ImageProcessor.Domain;
 using ImageProcessor.Domain.Models;
-using ImageProcessor.Models;
 using ImageProcessor.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
 
