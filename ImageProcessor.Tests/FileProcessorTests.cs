@@ -1,4 +1,3 @@
-using System.Text;
 using ImageProcessor.Domain;
 using ImageProcessor.Domain.Models;
 using Xunit.Abstractions;
