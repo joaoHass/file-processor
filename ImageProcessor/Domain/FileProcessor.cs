@@ -10,7 +10,8 @@ namespace ImageProcessor.Domain;
 
 public class FileProcessor
 {
-    private ImageEncoder Encoder { get; set; }
+    // Defined inside the constructor using DefineEncoderType, will never be null
+    private ImageEncoder Encoder { get; set; } = null!;
 
     private readonly bool _resize;
     private readonly bool _compress;
