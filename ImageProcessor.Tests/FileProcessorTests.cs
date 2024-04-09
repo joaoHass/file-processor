@@ -1,12 +1,6 @@
-using System.IO.Abstractions;
-using System.IO.Abstractions.TestingHelpers;
 using System.Text;
 using ImageProcessor.Domain;
 using ImageProcessor.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Moq;
-using SixLabors.ImageSharp;
 using Xunit.Abstractions;
 
 namespace ImageProcessor.Tests;

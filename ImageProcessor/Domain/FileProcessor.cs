@@ -5,7 +5,6 @@ using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Formats.Webp;
-using SixLabors.ImageSharp.Processing;
 
 namespace ImageProcessor.Domain;
 

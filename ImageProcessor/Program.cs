@@ -1,11 +1,6 @@
-using System.Text;
-using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ImageProcessor.Data;
-using Microsoft.AspNetCore.RateLimiting;
-using System.Threading.RateLimiting;
-using ImageProcessor.Domain;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
