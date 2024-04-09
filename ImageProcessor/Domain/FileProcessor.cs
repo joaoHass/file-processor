@@ -17,7 +17,7 @@ public class FileProcessor
     private readonly bool _compress;
     private readonly string _folderDestination;
     private readonly IDictionary<Stream, string> _files;
-    public IDictionary<ProcessedFileStatus, string> FilesStatus { get; private set; }
+    public IDictionary<ProcessedFileStatus, string> FilesStatus { get; }
     
     public FileProcessor(IDictionary<Stream, string> files,
         FileType targetFileType,
