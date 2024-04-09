@@ -48,17 +48,17 @@ public class FileProcessor
                 await SaveAsAsync(fileStream, newFileName);
             }
             #region error handling
-            catch (NotSupportedException e)
+            catch (NotSupportedException)
             {
                 FilesStatus.Add(ProcessedFileStatus.FailedUnsupportedFormat, newFileName);
                 continue;
             }
-            catch (UnknownImageFormatException e)
+            catch (UnknownImageFormatException)
             {
                 FilesStatus.Add(ProcessedFileStatus.FailedUnknownFormat, newFileName);
                 continue;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 FilesStatus.Add(ProcessedFileStatus.Failed, newFileName);
                 continue;
