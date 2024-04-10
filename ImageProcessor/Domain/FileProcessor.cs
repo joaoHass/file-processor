@@ -17,32 +17,38 @@ public class FileProcessor
     private readonly bool _compress;
     private readonly string _folderDestination;
     private readonly IDictionary<Stream, string> _files;
-    public IDictionary<FileStatus, string> FilesStatus { get; }
+    public IList<ProcessedFile> FilesStatus { get; }
 
     public FileProcessor(IDictionary<Stream, string> files,
         FileType targetFileType,
         bool compress = false,
-        bool resize = false) 
+        bool resize = false)
     {
         _files = files;
         _resize = resize;
         _compress = compress;
-        FilesStatus = new Dictionary<FileStatus, string>();
+        FilesStatus = new List<ProcessedFile>();
 
         _folderDestination = "/usr/local/";
         DefineEncoderType(targetFileType);
     }
 
-    public async Task Process()
+    public async Task<IList<ProcessedFile>> ProcessAsync()
     {
         if (string.IsNullOrWhiteSpace(_folderDestination))
             throw new ApplicationException("The target file PATH was not defined.");
-        
+
         foreach (var file in _files)
         {
             var fileStream = file.Key;
             var newFileName = Guid.NewGuid().ToString();
-
+            
+            var fileStatus = new ProcessedFile(
+                originalName: file.Value,
+                newName: newFileName,
+                processedImage: null,
+                fileStatus: FileStatus.Processing);
+            
             try
             {
                 await SaveAsAsync(fileStream, newFileName);
@@ -50,25 +56,31 @@ public class FileProcessor
             #region error handling
             catch (NotSupportedException)
             {
-                FilesStatus.Add(FileStatus.FailedUnsupportedFormat, newFileName);
+                fileStatus.FileStatus = FileStatus.FailedUnsupportedFormat;
+                FilesStatus.Add(fileStatus);
                 continue;
             }
             catch (UnknownImageFormatException)
             {
-                FilesStatus.Add(FileStatus.FailedUnknownFormat, newFileName);
+                fileStatus.FileStatus = FileStatus.FailedUnknownFormat;
+                FilesStatus.Add(fileStatus);
                 continue;
             }
             catch (Exception)
             {
-                FilesStatus.Add(FileStatus.Failed, newFileName);
+                fileStatus.FileStatus = FileStatus.Failed;
+                FilesStatus.Add(fileStatus);
                 continue;
             }
             #endregion
 
             // TODO: Save to DB; if the saving fails, delete the file and save as failed to FilesStatus
-
-            FilesStatus.Add(FileStatus.Success, newFileName);
+            fileStatus.FileStatus = FileStatus.Success;
+            fileStatus.ProcessedImage = fileStream;
+            FilesStatus.Add(fileStatus);
         }
+
+        return FilesStatus;
     }
 
     /// <summary>
