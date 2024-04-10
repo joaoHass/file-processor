@@ -38,16 +38,10 @@ public class FileProcessor
         if (string.IsNullOrWhiteSpace(_folderDestination))
             throw new ApplicationException("The target file PATH was not defined.");
 
-        foreach (var file in _files)
+        foreach (var (fileStream, fileName) in _files)
         {
-            var fileStream = file.Key;
             var newFileName = Guid.NewGuid().ToString();
-            
-            var fileStatus = new ProcessedFile(
-                originalName: file.Value,
-                newName: newFileName,
-                processedImage: null,
-                fileStatus: FileStatus.Processing);
+            var fileStatus = new ProcessedFile(fileName, newFileName, null, FileStatus.Processing);
             
             try
             {
@@ -96,10 +90,10 @@ public class FileProcessor
     private async Task SaveAsAsync(Stream fileStream, string fileName)
     {
         await Image.IdentifyAsync(fileStream);
-        
+
         var filePath = Path.Join(_folderDestination, fileName);
         var originalImage = await Image.LoadAsync(fileStream);
-        
+
         await originalImage.SaveAsync(filePath, Encoder);
     }
 
