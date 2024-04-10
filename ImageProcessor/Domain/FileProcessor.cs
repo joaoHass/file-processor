@@ -90,7 +90,7 @@ public class FileProcessor
         
         await originalImage.SaveAsync(filePath, Encoder);
     }
-    
+
     /// <summary>
     /// Defines which Encoder to use based on the targetFileType
     /// </summary>
@@ -103,24 +103,14 @@ public class FileProcessor
     {
         if (targetFileType == 0)
             throw new ArgumentNullException(nameof(targetFileType), "The target file TYPE is null or empty.");
-        
-        switch (targetFileType)
+
+        Encoder = targetFileType switch
         {
-            case FileType.Png:
-                Encoder = new PngEncoder();
-                break;
-            case FileType.Jpeg:
-                Encoder = new JpegEncoder();
-                break;
-            case FileType.Bmp:
-                Encoder = new BmpEncoder();
-                break;
-            case FileType.Webp:
-                Encoder = new WebpEncoder();
-                break;
-            default:
-                throw new ArgumentException("The target file TYPE is not recognized.");
-        }
+            FileType.Png => new PngEncoder(),
+            FileType.Jpeg => new JpegEncoder(),
+            FileType.Bmp => new BmpEncoder(),
+            FileType.Webp => new WebpEncoder(),
+            _ => throw new ArgumentException("The target file TYPE is not recognized.")
+        };
     }
-    
 }
