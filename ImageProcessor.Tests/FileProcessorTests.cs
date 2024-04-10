@@ -17,7 +17,7 @@ public class FileProcessorTests(ITestOutputHelper testOutputHelper)
         
         await processor.Process();
         
-        Assert.Equal(ProcessedFileStatus.FailedUnknownFormat, processor.FilesStatus.Keys.First());
+        Assert.Equal(FileStatus.FailedUnknownFormat, processor.FilesStatus.Keys.First());
     }
 
     [Fact]

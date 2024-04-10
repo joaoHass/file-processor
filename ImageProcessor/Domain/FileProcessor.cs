@@ -17,8 +17,8 @@ public class FileProcessor
     private readonly bool _compress;
     private readonly string _folderDestination;
     private readonly IDictionary<Stream, string> _files;
-    public IDictionary<ProcessedFileStatus, string> FilesStatus { get; }
-    
+    public IDictionary<FileStatus, string> FilesStatus { get; }
+
     public FileProcessor(IDictionary<Stream, string> files,
         FileType targetFileType,
         bool compress = false,
@@ -27,8 +27,8 @@ public class FileProcessor
         _files = files;
         _resize = resize;
         _compress = compress;
-        FilesStatus = new Dictionary<ProcessedFileStatus, string>();
-        
+        FilesStatus = new Dictionary<FileStatus, string>();
+
         _folderDestination = "/usr/local/";
         DefineEncoderType(targetFileType);
     }
@@ -50,24 +50,24 @@ public class FileProcessor
             #region error handling
             catch (NotSupportedException)
             {
-                FilesStatus.Add(ProcessedFileStatus.FailedUnsupportedFormat, newFileName);
+                FilesStatus.Add(FileStatus.FailedUnsupportedFormat, newFileName);
                 continue;
             }
             catch (UnknownImageFormatException)
             {
-                FilesStatus.Add(ProcessedFileStatus.FailedUnknownFormat, newFileName);
+                FilesStatus.Add(FileStatus.FailedUnknownFormat, newFileName);
                 continue;
             }
             catch (Exception)
             {
-                FilesStatus.Add(ProcessedFileStatus.Failed, newFileName);
+                FilesStatus.Add(FileStatus.Failed, newFileName);
                 continue;
             }
             #endregion
-            
+
             // TODO: Save to DB; if the saving fails, delete the file and save as failed to FilesStatus
-            
-            FilesStatus.Add(ProcessedFileStatus.Success, newFileName);
+
+            FilesStatus.Add(FileStatus.Success, newFileName);
         }
     }
 

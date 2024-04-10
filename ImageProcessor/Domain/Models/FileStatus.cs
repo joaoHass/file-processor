@@ -1,6 +1,6 @@
 namespace ImageProcessor.Domain.Models;
 
-public enum ProcessedFileStatus
+public enum FileStatus
 {
     Success,
     Failed,
