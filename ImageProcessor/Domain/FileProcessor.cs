@@ -70,7 +70,7 @@ public class FileProcessor
 
             // TODO: Save to DB; if the saving fails, delete the file and save as failed to FilesStatus
             fileStatus.FileStatus = FileStatus.Success;
-            fileStatus.ProcessedImage = fileStream;
+            fileStatus.ConvertedFile = fileStream;
             FilesStatus.Add(fileStatus);
         }
 
