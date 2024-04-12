@@ -47,26 +47,15 @@ public class FileProcessor
             {
                 await SaveAsAsync(fileStream, newFileName);
             }
-            #region error handling
-            catch (NotSupportedException)
+            catch (UnknownImageFormatException) { fileStatus.FileStatus = FileStatus.FailedUnknownFormat; }
+            catch (NotSupportedException) { fileStatus.FileStatus = FileStatus.FailedUnsupportedFormat; }
+            catch (Exception e) { fileStatus.FileStatus = FileStatus.Failed; }
+
+            if (fileStatus.FileStatus != FileStatus.Processing)
             {
-                fileStatus.FileStatus = FileStatus.FailedUnsupportedFormat;
                 FilesStatus.Add(fileStatus);
                 continue;
             }
-            catch (UnknownImageFormatException)
-            {
-                fileStatus.FileStatus = FileStatus.FailedUnknownFormat;
-                FilesStatus.Add(fileStatus);
-                continue;
-            }
-            catch (Exception)
-            {
-                fileStatus.FileStatus = FileStatus.Failed;
-                FilesStatus.Add(fileStatus);
-                continue;
-            }
-            #endregion
 
             // TODO: Save to DB; if the saving fails, delete the file and save as failed to FilesStatus
             fileStatus.FileStatus = FileStatus.Success;
