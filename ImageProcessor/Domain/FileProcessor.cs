@@ -35,8 +35,8 @@ public class FileProcessor
 
     public async Task<IList<ProcessedFile>> ProcessAsync()
     {
-        if (string.IsNullOrWhiteSpace(_folderDestination))
-            throw new ApplicationException("The target file PATH was not defined.");
+        if (!Path.Exists(_folderDestination))
+            throw new ApplicationException("The target file PATH does not exist.");
 
         foreach (var (fileStream, fileName) in _files)
         {
