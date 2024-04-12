@@ -17,7 +17,7 @@ public class FileProcessor
     private readonly bool _compress;
     private readonly string _folderDestination;
     private readonly IDictionary<Stream, string> _files;
-    public IList<ProcessedFile> FilesStatus { get; }
+    public IList<ProcessedFile> ProcessedFiles { get; }
 
     public FileProcessor(IDictionary<Stream, string> files,
         FileType targetFileType,
@@ -27,7 +27,7 @@ public class FileProcessor
         _files = files;
         _resize = resize;
         _compress = compress;
-        FilesStatus = new List<ProcessedFile>();
+        ProcessedFiles = new List<ProcessedFile>();
 
         _folderDestination = "/usr/local/";
         DefineEncoderType(targetFileType);
@@ -41,29 +41,29 @@ public class FileProcessor
         foreach (var (fileStream, fileName) in _files)
         {
             var newFileName = Guid.NewGuid().ToString();
-            var fileStatus = new ProcessedFile(fileName, newFileName, null, FileStatus.Processing);
+            var currentFile = new ProcessedFile(fileName, newFileName, null, FileStatus.Processing);
             
             try
             {
                 await SaveAsAsync(fileStream, newFileName);
             }
-            catch (UnknownImageFormatException) { fileStatus.FileStatus = FileStatus.FailedUnknownFormat; }
-            catch (NotSupportedException) { fileStatus.FileStatus = FileStatus.FailedUnsupportedFormat; }
-            catch (Exception e) { fileStatus.FileStatus = FileStatus.Failed; }
+            catch (UnknownImageFormatException) { currentFile.FileStatus = FileStatus.FailedUnknownFormat; }
+            catch (NotSupportedException) { currentFile.FileStatus = FileStatus.FailedUnsupportedFormat; }
+            catch (Exception e) { currentFile.FileStatus = FileStatus.Failed; }
 
-            if (fileStatus.FileStatus != FileStatus.Processing)
+            if (currentFile.FileStatus != FileStatus.Processing)
             {
-                FilesStatus.Add(fileStatus);
+                ProcessedFiles.Add(currentFile);
                 continue;
             }
 
-            // TODO: Save to DB; if the saving fails, delete the file and save as failed to FilesStatus
-            fileStatus.FileStatus = FileStatus.Success;
-            fileStatus.ConvertedFile = fileStream;
-            FilesStatus.Add(fileStatus);
+            // TODO: Save to DB; if the saving fails, delete the file and save as failed to ProcessedFiles
+            currentFile.FileStatus = FileStatus.Success;
+            currentFile.ConvertedFile = fileStream;
+            ProcessedFiles.Add(currentFile);
         }
 
-        return FilesStatus;
+        return ProcessedFiles;
     }
 
     /// <summary>
