@@ -78,7 +78,9 @@ public class FileProcessor
     /// <exception cref="UnknownImageFormatException">The encoded image format is unknown.</exception>
     private async Task SaveAsAsync(Stream fileStream, string fileName)
     {
+        // Cheap file validation
         await Image.IdentifyAsync(fileStream);
+        fileStream.Position = 0;
 
         var filePath = Path.Join(_folderDestination, fileName);
         var originalImage = await Image.LoadAsync(fileStream);
