@@ -43,11 +43,17 @@ public class FileProcessor
         foreach (var (fileStream, fileName) in _files)
         {
             var newFileName = Guid.NewGuid().ToString();
+            var filePath = Path.Join(_folderDestination, $"{newFileName}.{_targetFileType}" );
             var currentFile = new ProcessedFile(fileName, newFileName, null, FileStatus.Processing);
             
             try
             {
-                await SaveAsAsync(fileStream, newFileName);
+                await Image.IdentifyAsync(fileStream);
+                fileStream.Position = 0;
+
+                using var image = await Image.LoadAsync(fileStream);
+                
+                await image.SaveAsync(filePath, Encoder);
             }
             catch (UnknownImageFormatException) { currentFile.FileStatus = FileStatus.FailedUnknownFormat; }
             catch (NotSupportedException) { currentFile.FileStatus = FileStatus.FailedUnsupportedFormat; }
@@ -66,28 +72,6 @@ public class FileProcessor
         }
 
         return ProcessedFiles;
-    }
-
-    /// <summary>
-    /// Save the passed image as the TargetFileType, in the configured FolderDestination. 
-    /// </summary>
-    /// <param name="fileStream"></param>
-    /// <param name="fileName">The file name, without the extension</param>
-    /// <exception cref="ArgumentException">Threw if the passed fileName is null or whitespace</exception>
-    /// <exception cref="ArgumentNullException">The stream is null.</exception>
-    /// <exception cref="NotSupportedException">The stream is not readable or the image format is not supported.</exception>
-    /// <exception cref="InvalidImageContentException">The encoded image contains invalid content.</exception>
-    /// <exception cref="UnknownImageFormatException">The encoded image format is unknown.</exception>
-    private async Task SaveAsAsync(Stream fileStream, string fileName)
-    {
-        // Cheap file validation
-        await Image.IdentifyAsync(fileStream);
-        fileStream.Position = 0;
-
-        var filePath = Path.Join(_folderDestination, $"{fileName}.{_targetFileType}" );
-        var originalImage = await Image.LoadAsync(fileStream);
-
-        await originalImage.SaveAsync(filePath, Encoder);
     }
 
     /// <summary>
