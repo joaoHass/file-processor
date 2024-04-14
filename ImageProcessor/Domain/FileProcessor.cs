@@ -100,9 +100,6 @@ public class FileProcessor
     /// </exception>
     private void DefineTargetFileType(FileType targetFileType)
     {
-        if (targetFileType == 0)
-            throw new ArgumentNullException(nameof(targetFileType), "The target file TYPE is null or empty.");
-
         switch (targetFileType)
         {
             case (FileType.Png):
