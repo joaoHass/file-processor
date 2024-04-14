@@ -10,8 +10,10 @@ namespace ImageProcessor.Domain;
 
 public class FileProcessor
 {
-    // Defined inside the constructor using DefineEncoderType, will never be null
+    // Defined inside the constructor using DefineTargetFileType, will never be null
     private ImageEncoder Encoder { get; set; } = null!;
+    private string _targetFileType { get; set; } = null!;
+    //
 
     private readonly bool _resize;
     private readonly bool _compress;
@@ -30,7 +32,7 @@ public class FileProcessor
         ProcessedFiles = new List<ProcessedFile>();
 
         _folderDestination = "/usr/local/";
-        DefineEncoderType(targetFileType);
+        DefineTargetFileType(targetFileType);
     }
 
     public async Task<IList<ProcessedFile>> ProcessAsync()
@@ -82,7 +84,7 @@ public class FileProcessor
         await Image.IdentifyAsync(fileStream);
         fileStream.Position = 0;
 
-        var filePath = Path.Join(_folderDestination, fileName);
+        var filePath = Path.Join(_folderDestination, $"{fileName}.{_targetFileType}" );
         var originalImage = await Image.LoadAsync(fileStream);
 
         await originalImage.SaveAsync(filePath, Encoder);
@@ -96,18 +98,31 @@ public class FileProcessor
     /// <exception cref="ArgumentException">
     /// Thrown if the targetFileType is not recognized. Recognized types are: png, jpeg, bmp
     /// </exception>
-    private void DefineEncoderType(FileType targetFileType)
+    private void DefineTargetFileType(FileType targetFileType)
     {
         if (targetFileType == 0)
             throw new ArgumentNullException(nameof(targetFileType), "The target file TYPE is null or empty.");
 
-        Encoder = targetFileType switch
+        switch (targetFileType)
         {
-            FileType.Png => new PngEncoder(),
-            FileType.Jpeg => new JpegEncoder(),
-            FileType.Bmp => new BmpEncoder(),
-            FileType.Webp => new WebpEncoder(),
-            _ => throw new ArgumentException("The target file TYPE is not recognized.")
-        };
+            case (FileType.Png):
+                Encoder = new PngEncoder();
+                _targetFileType = "png";
+                break;
+            case (FileType.Jpeg):
+                Encoder = new JpegEncoder();
+                _targetFileType = "jpeg";
+                break;
+            case (FileType.Bmp):
+                Encoder = new BmpEncoder();
+                _targetFileType = "bmp";
+                break;
+            case (FileType.Webp):
+                Encoder = new WebpEncoder();
+                _targetFileType = "webp";
+                break;
+            default:
+                throw new ArgumentException("The target file TYPE is not recognized.");
+        }
     }
 }
