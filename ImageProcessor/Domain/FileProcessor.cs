@@ -48,6 +48,7 @@ public class FileProcessor
             
             try
             {
+                fileStream.Position = 0;
                 await Image.IdentifyAsync(fileStream);
                 fileStream.Position = 0;
 
