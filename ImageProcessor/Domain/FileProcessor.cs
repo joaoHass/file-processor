@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using ImageProcessor.Domain.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
@@ -19,10 +20,10 @@ public class FileProcessor
     private readonly bool _resize;
     private readonly bool _compress;
     private readonly string _folderDestination;
-    private readonly IDictionary<Stream, string> _files;
+    private readonly IDictionary<MemoryStream, string> _files;
     public IList<ProcessedFile> ProcessedFiles { get; }
 
-    public FileProcessor(IDictionary<Stream, string> files,
+    public FileProcessor(IDictionary<MemoryStream, string> files,
         FileType targetFileType,
         bool compress = false,
         bool resize = false)
@@ -79,6 +80,34 @@ public class FileProcessor
         }
 
         return ProcessedFiles;
+    }
+
+    public async Task<byte[]> ReturnProcessedFileAsZip()
+    {
+        byte[] result = null;
+        
+        using (var zipArchiveMemoryStream = new MemoryStream())
+        using (var zipArchive = new ZipArchive(zipArchiveMemoryStream, ZipArchiveMode.Create, true))
+        {
+            foreach (var file in ProcessedFiles)
+            {
+                if (file.FileStatus != FileStatus.Success)
+                    continue;
+                
+                var zipEntry = zipArchive.CreateEntry(file.NewName, CompressionLevel.Fastest);
+                await using (BinaryWriter writer = new BinaryWriter(zipEntry.Open()))
+                {
+                    writer.Write(file.ConvertedFile.ToArray());
+                    writer.Close();
+                }
+                
+            }
+
+            zipArchiveMemoryStream.Position = 0;
+            result = zipArchiveMemoryStream.ToArray();
+        } 
+        
+        return result;
     }
 
     /// <summary>
