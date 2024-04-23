@@ -49,8 +49,8 @@
                 data.append('files', file)
             }
             data.append('targetFileType', document.querySelector('#targetFileType').value)
-            data.append('shouldCompress', document.querySelector('#shouldCompress').value === 'on' ? 'true' : 'false')
-            data.append('shouldResize', document.querySelector('#shouldResize').value === 'on' ? 'true' : 'false')
+            data.append('compress', document.querySelector('#shouldCompress').value === 'on' ? 'true' : 'false')
+            data.append('resize', document.querySelector('#shouldResize').value === 'on' ? 'true' : 'false')
             
             fetch('/File/UploadFiles/', {
                 method: 'POST',
