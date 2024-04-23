@@ -5,6 +5,7 @@ using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Formats.Webp;
+using SixLabors.ImageSharp.Processing;
 
 namespace ImageProcessor.Domain;
 
@@ -54,6 +55,11 @@ public class FileProcessor
 
                 using var image = await Image.LoadAsync(fileStream);
                 
+                if (_resize)
+                {
+                    image.Mutate(x => x.Resize(image.Width / 2, image.Height / 2));
+                }
+                    
                 await image.SaveAsync(filePath, Encoder);
             }
             catch (UnknownImageFormatException) { currentFile.FileStatus = FileStatus.FailedUnknownFormat; }
@@ -92,7 +98,7 @@ public class FileProcessor
                 _targetFileType = "png";
                 break;
             case (FileType.Jpeg):
-                Encoder = new JpegEncoder();
+                Encoder = new JpegEncoder() { Quality = _compress ? 60 : 75};
                 _targetFileType = "jpeg";
                 break;
             case (FileType.Bmp):
@@ -100,7 +106,7 @@ public class FileProcessor
                 _targetFileType = "bmp";
                 break;
             case (FileType.Webp):
-                Encoder = new WebpEncoder();
+                Encoder = new WebpEncoder() { Quality = _compress ? 60 : 75 };
                 _targetFileType = "webp";
                 break;
             default:
