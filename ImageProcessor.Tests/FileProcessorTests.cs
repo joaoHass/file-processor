@@ -28,7 +28,7 @@ public class FileProcessorTests(ITestOutputHelper testOutputHelper)
     }
 
     [Fact]
-    public async void Invalid_files_should_not_return_the_file_stream()
+    public async void Failed_files_should_return_null_for_the_resulting_stream()
     {
         var files = CreateInvalidFile();
         var processor = new FileProcessor(files, FileType.Jpeg, true, true);
