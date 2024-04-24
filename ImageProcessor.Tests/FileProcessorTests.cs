@@ -6,8 +6,15 @@ namespace ImageProcessor.Tests;
 
 public class FileProcessorTests(ITestOutputHelper testOutputHelper)
 {
-    private readonly string _filesPath = "/home/joaohass/RiderProjects/ImageProcessor/ImageProcessor.Tests/TestFiles/";
+    private readonly string _filesPath = "C:\\Users\\Hass\\Documents\\file-processor\\ImageProcessor.Tests\\TestFiles";
     private readonly ITestOutputHelper _testOutputHelper = testOutputHelper;
+
+    [Fact]
+    public async void Valid_files_should_be_processed_successfully()
+    {
+        var files = CreateValidFile();
+        var processor = new FileProcessor(files, FileType.Jpeg, true, true);
+    }
 
     [Fact]
     public async void Invalid_files_should_be_processed_as_failed()
@@ -41,5 +48,19 @@ public class FileProcessorTests(ITestOutputHelper testOutputHelper)
     private Dictionary<MemoryStream, string> CreateInvalidFile()
     {
         return new Dictionary<MemoryStream, string> { { new MemoryStream("Test file"u8.ToArray()), "test file name" } };
+    }
+    
+    private Dictionary<MemoryStream, string> CreateValidFile()
+    {
+        var ms = new MemoryStream();
+        using (var fs = new FileStream(Path.Join(_filesPath, "valid_png_file.png"), FileMode.Open, FileAccess.Read))
+        {
+            byte[] bytes = new byte[fs.Length];
+            fs.Read(bytes, 0, (int)fs.Length);
+            ms.Write(bytes, 0, (int)fs.Length);
+            ms.Position = 0;
+        }
+        
+        return new Dictionary<MemoryStream, string> { {ms, "valid_test_file.png" } };
     }
 }
