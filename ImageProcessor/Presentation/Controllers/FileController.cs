@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Mime;
 using ImageProcessor.Domain;
 using ImageProcessor.Domain.Models;
@@ -20,6 +21,9 @@ public class FileController : Controller
 
         foreach (var file in dto.Files)
         {
+            if (file.Length > 5242880) // 5MB in binary
+                return StatusCode((int)HttpStatusCode.RequestEntityTooLarge, "At least one of the files exceeds 5MB");
+            
             var memoryStream = new MemoryStream();
             await file.CopyToAsync(memoryStream);
             memoryStream.Position = 0;

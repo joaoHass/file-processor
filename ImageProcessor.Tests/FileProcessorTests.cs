@@ -1,5 +1,10 @@
+using System.Net;
 using ImageProcessor.Domain;
 using ImageProcessor.Domain.Models;
+using ImageProcessor.Presentation.Controllers;
+using ImageProcessor.Presentation.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Xunit.Abstractions;
 
 namespace ImageProcessor.Tests;
@@ -36,6 +41,22 @@ public class FileProcessorTests(ITestOutputHelper testOutputHelper)
         var processedFiles = await processor.ProcessAsync();
         
         Assert.Null(processedFiles.First().ConvertedFile);
+    }
+
+    [Fact]
+    public async void UploadFiles_should_reject_requests_that_contains_files_larger_than_5mb()
+    {
+        var controller = new FileController();
+        var ms = CreateValidFile().First().Key;
+        ms.SetLength(5242880 + 1);
+        IFormFile[] formFiles = [new FormFile(ms, 0, ms.Length, "valid_test_file.png", "valid_test_file.png")];
+        
+        var result = await controller.UploadFiles(new FilesUploadDto(formFiles, FileType.Jpeg, true, true));
+        var statusResult = result as ObjectResult;
+        
+       
+       Assert.NotNull(result);
+       Assert.Equal((int)HttpStatusCode.RequestEntityTooLarge, statusResult?.StatusCode);
     }
 
     [Fact]
