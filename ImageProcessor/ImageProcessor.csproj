@@ -82,6 +82,15 @@
       <_ContentIncludedByDefault Remove="wwwroot\favicon.ico" />
       <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
     </ItemGroup>
+	
+	<ItemGroup>
+	  <UpToDateCheckBuilt Include="Presentation/wwwroot/css/site.css" Set="Css" />
+	  <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
+	</ItemGroup>
+
+	<Target Name="Tailwind" BeforeTargets="Build">
+	  <Exec Command="npm run css:build"/>
+	</Target>
 
     <ItemGroup>
       <AdditionalFiles Include="Presentation\Areas\Identity\Pages\_ViewStart.cshtml" />
