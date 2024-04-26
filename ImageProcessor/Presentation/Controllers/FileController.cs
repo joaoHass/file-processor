@@ -19,6 +19,9 @@ public class FileController : Controller
     {
         var files = new Dictionary<MemoryStream, string>();
 
+        if (dto.Files.Length > 10)
+            return StatusCode((int)HttpStatusCode.RequestEntityTooLarge, "The payload exceeds the limit of 10 files");
+        
         foreach (var file in dto.Files)
         {
             if (file.Length > 5242880) // 5MB in binary

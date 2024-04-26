@@ -60,6 +60,24 @@ public class FileProcessorTests(ITestOutputHelper testOutputHelper)
     }
 
     [Fact]
+    public async void UploadFiles_should_reject_requests_with_more_than_10_files()
+    {
+        var controller = new FileController();
+        var ms = CreateValidFile().First().Key;
+        var formFiles = new IFormFile[11];
+        for (int i = 0; i < 11; i++)
+        {
+            formFiles[i] = new FormFile(ms, 0, ms.Length, "valid_test_file.png", "valid_test_file.png");
+        }
+        
+        var result = await controller.UploadFiles(new FilesUploadDto(formFiles, FileType.Jpeg, true, true));
+        var statusResult = result as ObjectResult;
+
+        Assert.NotNull(statusResult);
+        Assert.Equal((int)HttpStatusCode.RequestEntityTooLarge, statusResult?.StatusCode);
+    }
+    
+    [Fact]
     public async void Non_supported_target_files_type_should_not_process()
     {
         var files = CreateInvalidFile();
