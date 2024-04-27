@@ -1,38 +1,56 @@
-@{
+﻿@{
     ViewData["Title"] = "File Processing";
 }
 
-<form>
-    <div>
-        <label for="files">Select one or more files:</label>
-        <input id="files" type="file" multiple>
+<form class="mx-auto flex gap-4">
+    <div class="w-full">
+        <label for="dropzone-file" class="border-2 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-600 lg:h-full dark:hover:bg-bray-800 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+            <div class="flex flex-col items-center justify-center pb-6 pt-5">
+                <svg class="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                </svg>
+                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPEG, WEBP or BMP</p>
+            </div>
+            <input id="dropzone-file" type="file" class="hidden" />
+        </label>
     </div>
 
     <div>
-        <label for="targetFileType">Target file type:</label>
-        <select id="targetFileType">
+        <label for="targetFileType" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Target file type</label>
+        <select id="targetFileType" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option value="png">PNG</option>
             <option value="jpeg">JPEG</option>
             <option value="webp">WEBP</option>
             <option value="bmp">BMP</option>
         </select>
+
+        <fieldset class="my-6 mt-3.5">
+            <legend class="mb-1 block text-sm font-medium text-gray-900 dark:text-white">Options</legend>
+
+            <div class="mb-2 flex">
+                <div class="flex h-5 items-center">
+                    <input id="shouldCompress" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-blue-500 focus:ring-2 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800">
+                </div>
+                <div class="ms-2 text-sm">
+                    <label for="shouldCompress" class="font-medium text-gray-900 hover:cursor-pointer dark:text-gray-300">Compress</label>
+                    <p class="text-xs font-normal text-gray-500 dark:text-gray-400">Compressing depends on target file type</p>
+                </div>
+            </div>
+
+            <div class="flex">
+                <div class="flex h-5 items-center">
+                    <input id="shouldResize" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-blue-500 focus:ring-2 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800">
+                </div>
+                <div class="ms-2 text-sm">
+                    <label for="shouldResize" class="font-medium text-gray-900 hover:cursor-pointer dark:text-gray-300">Resize</label>
+                    <p class="text-xs font-normal text-gray-500 dark:text-gray-400">Resize by 50%</p>
+                </div>
+            </div>
+        </fieldset>
+
+        <button type="submit" class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 sm:w-auto dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
     </div>
-    
-    <fieldset>
-        <legend>Options</legend>
-        
-        <div>
-            <input type="checkbox" id="shouldCompress">
-            <label for="shouldCompress"> Should Compress</label>
-        </div>
-        
-        <div>
-            <input type="checkbox" id="shouldResize">
-            <label for="shouldResize"> Should Resize</label>
-        </div>
-    </fieldset>
-    
-    <input type="submit" value="Upload">
 </form>
 
 @section Scripts
