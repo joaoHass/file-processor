@@ -45,7 +45,7 @@ public class FileProcessor
         foreach (var (fileStream, fileName) in _files)
         {
             var newFileName = $"{Guid.NewGuid()}.{_targetFileType}";
-            var filePath = Path.Join(_folderDestination, $"{newFileName}.{_targetFileType}" );
+            var filePath = Path.Join(_folderDestination, $"{newFileName}" );
             var currentFile = new ProcessedFile(fileName, newFileName, null, FileStatus.Processing);
             
             try
