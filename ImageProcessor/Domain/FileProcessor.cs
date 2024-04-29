@@ -84,7 +84,7 @@ public class FileProcessor
 
     public async Task<byte[]> ReturnProcessedFileAsZip()
     {
-        byte[] result = null;
+        byte[]? result = null;
         
         using (var zipArchiveMemoryStream = new MemoryStream())
         using (var zipArchive = new ZipArchive(zipArchiveMemoryStream, ZipArchiveMode.Create, true))
