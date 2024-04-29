@@ -44,6 +44,18 @@ public class FileProcessorTests(ITestOutputHelper testOutputHelper)
     }
 
     [Fact]
+    public async void UploadFiles_should_reject_requests_when_files_property_is_null()
+    {
+        var controller = new FileController();
+
+        var result = await controller.UploadFiles(new FilesUploadDto(null, FileType.Jpeg, true, true));
+        var statusResult = result as ObjectResult;
+
+        Assert.NotNull(statusResult);
+        Assert.IsType<BadRequestObjectResult>(statusResult);
+    }
+
+    [Fact]
     public async void UploadFiles_should_reject_requests_that_contains_files_larger_than_5mb()
     {
         var controller = new FileController();

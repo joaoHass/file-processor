@@ -17,11 +17,13 @@ public class FileController : Controller
     [HttpPost]
     public async Task<IActionResult> UploadFiles(FilesUploadDto dto)
     {
-        var files = new Dictionary<MemoryStream, string>();
+        if (dto.Files == null)
+            return BadRequest("The files properties can't be null");
 
         if (dto.Files.Length > 10)
             return StatusCode((int)HttpStatusCode.RequestEntityTooLarge, "The payload exceeds the limit of 10 files");
-        
+
+        var files = new Dictionary<MemoryStream, string>();
         foreach (var file in dto.Files)
         {
             if (file.Length > 5242880) // 5MB in binary
