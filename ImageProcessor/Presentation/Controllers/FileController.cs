@@ -9,6 +9,13 @@ namespace ImageProcessor.Presentation.Controllers;
 
 public class FileController : Controller
 {
+    private readonly FileProcessorFactory _fileProcessorFactory;
+
+    public FileController(FileProcessorFactory fileProcessorFactory)
+    {
+        _fileProcessorFactory = fileProcessorFactory;
+    }
+
     public IActionResult Index()
     {
         return View();
@@ -36,8 +43,8 @@ public class FileController : Controller
             files.Add(memoryStream, file.FileName);
         }
 
-        var fileProcessor = new FileProcessor(files, dto.TargetFileType, dto.Compress, dto.Resize);
-
+        var fileProcessor = _fileProcessorFactory.Create(files, dto.TargetFileType, dto.Compress, dto.Resize);
+        
         var processedFiles = new List<ProcessedFile>();
         try
         {

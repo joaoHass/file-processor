@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using ImageProcessor.Data;
 using ImageProcessor.Domain.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
@@ -17,17 +18,22 @@ public class FileProcessor
     private string _targetFileType { get; set; } = null!;
     //
 
+    private readonly ApplicationDbContext _context;
     private readonly bool _resize;
     private readonly bool _compress;
     private readonly string _folderDestination;
     private readonly IDictionary<MemoryStream, string> _files;
     public IList<ProcessedFile> ProcessedFiles { get; }
 
-    public FileProcessor(IDictionary<MemoryStream, string> files,
-        FileType targetFileType,
-        bool compress = false,
-        bool resize = false)
+    public FileProcessor(
+            ApplicationDbContext context,
+            IDictionary<MemoryStream, string> files,
+            FileType targetFileType,
+            bool compress = false,
+            bool resize = false
+        )
     {
+        _context = context;
         _files = files;
         _resize = resize;
         _compress = compress;
@@ -62,20 +68,24 @@ public class FileProcessor
                 }
                     
                 await image.SaveAsync(filePath, Encoder);
+                currentFile.FileStatus = FileStatus.Success;
             }
             catch (UnknownImageFormatException) { currentFile.FileStatus = FileStatus.FailedUnknownFormat; }
             catch (NotSupportedException) { currentFile.FileStatus = FileStatus.FailedUnsupportedFormat; }
             catch (Exception e) { currentFile.FileStatus = FileStatus.Failed; }
 
-            if (currentFile.FileStatus != FileStatus.Processing)
-            {
-                ProcessedFiles.Add(currentFile);
-                continue;
-            }
-
             // TODO: Save to DB; if the saving fails, delete the file and save as failed to ProcessedFiles
-            currentFile.FileStatus = FileStatus.Success;
-            currentFile.ConvertedFile = fileStream;
+            _context.Add(new Data.Types.ProcessedFile()
+            {
+                OriginalFileName = fileName,
+                FilePath = filePath,
+                StatusId = currentFile.FileStatus
+            });
+            await _context.SaveChangesAsync();
+
+            if (currentFile.FileStatus == FileStatus.Success)
+                currentFile.ConvertedFile = fileStream;
+
             ProcessedFiles.Add(currentFile);
         }
 
