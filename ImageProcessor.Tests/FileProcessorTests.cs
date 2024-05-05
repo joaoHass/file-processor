@@ -1,4 +1,5 @@
 using System.Net;
+using ImageProcessor.Data;
 using ImageProcessor.Domain;
 using ImageProcessor.Domain.Models;
 using ImageProcessor.Presentation.Controllers;
@@ -9,26 +10,44 @@ using Xunit.Abstractions;
 
 namespace ImageProcessor.Tests;
 
-public class FileProcessorTests(ITestOutputHelper testOutputHelper)
+public class FileProcessorTests
 {
-    private readonly string _filesPath = "C:\\Users\\Hass\\Documents\\file-processor\\ImageProcessor.Tests\\TestFiles";
-    private readonly ITestOutputHelper _testOutputHelper = testOutputHelper;
+    private readonly string _filesPath;
+    private readonly ITestOutputHelper _testOutputHelper;
+    private readonly ApplicationDbContext _context;
+
+    public FileProcessorTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+        _filesPath = "C:\\Users\\Hass\\Documents\\file-processor\\ImageProcessor.Tests\\TestFiles";
+        _context = new DbContextFactory().Create();
+    }
 
     [Fact]
     public async void Valid_files_should_be_processed_successfully()
     {
         var files = CreateValidFile();
-        var processor = new FileProcessor(files, FileType.Jpeg, true, true);
+        var processorFactory = new FileProcessorFactory(_context);
+        var processor = processorFactory.Create(files, FileType.Jpeg, true, true);
+
+        var processedFiles = await processor.ProcessAsync();
+
+        Assert.True(_context.ProcessedFile.Count() == 1);
+        Assert.Equal(FileStatus.Success, _context.ProcessedFile.First().StatusId);
+        Assert.Equal(FileStatus.Success, processedFiles.First().FileStatus);
     }
 
     [Fact]
     public async void Invalid_files_should_be_processed_as_failed()
     {
         var files = CreateInvalidFile();
-        var processor = new FileProcessor(files, FileType.Jpeg, true, true);
+        var processorFactory = new FileProcessorFactory(_context);
+        var processor = processorFactory.Create(files, FileType.Jpeg, true, true);
 
         var processedFiles = await processor.ProcessAsync();
         
+        Assert.True(_context.ProcessedFile.Count() == 1);
+        Assert.Equal(FileStatus.FailedUnknownFormat, _context.ProcessedFile.First().StatusId);
         Assert.Equal(FileStatus.FailedUnknownFormat, processedFiles.First().FileStatus);
     }
 
@@ -36,17 +55,17 @@ public class FileProcessorTests(ITestOutputHelper testOutputHelper)
     public async void Failed_files_should_return_null_for_the_resulting_stream()
     {
         var files = CreateInvalidFile();
-        var processor = new FileProcessor(files, FileType.Jpeg, true, true);
+        var processor = new FileProcessorFactory(_context).Create(files, FileType.Jpeg, true, true);
 
         var processedFiles = await processor.ProcessAsync();
-        
+
         Assert.Null(processedFiles.First().ConvertedFile);
     }
 
     [Fact]
     public async void UploadFiles_should_reject_requests_when_files_property_is_null()
     {
-        var controller = new FileController();
+        var controller = new FileController(new FileProcessorFactory(_context));
 
         var result = await controller.UploadFiles(new FilesUploadDto(null, FileType.Jpeg, true, true));
         var statusResult = result as ObjectResult;
@@ -58,15 +77,14 @@ public class FileProcessorTests(ITestOutputHelper testOutputHelper)
     [Fact]
     public async void UploadFiles_should_reject_requests_that_contains_files_larger_than_5mb()
     {
-        var controller = new FileController();
+        var controller = new FileController(new FileProcessorFactory(_context));
         var ms = CreateValidFile().First().Key;
         ms.SetLength(5242880 + 1);
         IFormFile[] formFiles = [new FormFile(ms, 0, ms.Length, "valid_test_file.png", "valid_test_file.png")];
-        
+
         var result = await controller.UploadFiles(new FilesUploadDto(formFiles, FileType.Jpeg, true, true));
         var statusResult = result as ObjectResult;
-        
-       
+
        Assert.NotNull(result);
        Assert.Equal((int)HttpStatusCode.RequestEntityTooLarge, statusResult?.StatusCode);
     }
@@ -74,26 +92,26 @@ public class FileProcessorTests(ITestOutputHelper testOutputHelper)
     [Fact]
     public async void UploadFiles_should_reject_requests_with_more_than_10_files()
     {
-        var controller = new FileController();
+        var controller = new FileController(new FileProcessorFactory(_context));
         var ms = CreateValidFile().First().Key;
         var formFiles = new IFormFile[11];
         for (int i = 0; i < 11; i++)
         {
             formFiles[i] = new FormFile(ms, 0, ms.Length, "valid_test_file.png", "valid_test_file.png");
         }
-        
+
         var result = await controller.UploadFiles(new FilesUploadDto(formFiles, FileType.Jpeg, true, true));
         var statusResult = result as ObjectResult;
 
         Assert.NotNull(statusResult);
         Assert.Equal((int)HttpStatusCode.RequestEntityTooLarge, statusResult?.StatusCode);
     }
-    
+
     [Fact]
-    public async void Non_supported_target_files_type_should_not_process()
+    public void Non_supported_target_files_type_should_not_process()
     {
-        var files = CreateInvalidFile();
-        Assert.ThrowsAny<Exception>( () => new FileProcessor(files, 0, true, true));
+        var file = CreateInvalidFile();
+        Assert.ThrowsAny<Exception>( () => new FileProcessorFactory(_context).Create(file, 0, true, true));
     }
 
     private Dictionary<MemoryStream, string> CreateInvalidFile()
