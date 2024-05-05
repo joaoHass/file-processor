@@ -14,8 +14,8 @@ namespace ImageProcessor.Domain;
 public class FileProcessor
 {
     // Defined inside the constructor using DefineTargetFileType, will never be null
-    private ImageEncoder Encoder { get; set; } = null!;
-    private string _targetFileType { get; set; } = null!;
+    private ImageEncoder _encoder = null!;
+    private string _targetFileType = null!;
     //
 
     private readonly ApplicationDbContext _context;
@@ -67,7 +67,7 @@ public class FileProcessor
                     image.Mutate(x => x.Resize(image.Width / 2, image.Height / 2));
                 }
                     
-                await image.SaveAsync(filePath, Encoder);
+                await image.SaveAsync(filePath, _encoder);
                 currentFile.FileStatus = FileStatus.Success;
             }
             catch (UnknownImageFormatException) { currentFile.FileStatus = FileStatus.FailedUnknownFormat; }
@@ -133,19 +133,19 @@ public class FileProcessor
         switch (targetFileType)
         {
             case (FileType.Png):
-                Encoder = new PngEncoder();
+                _encoder = new PngEncoder();
                 _targetFileType = "png";
                 break;
             case (FileType.Jpeg):
-                Encoder = new JpegEncoder() { Quality = _compress ? 60 : 75};
+                _encoder = new JpegEncoder() { Quality = _compress ? 60 : 75};
                 _targetFileType = "jpeg";
                 break;
             case (FileType.Bmp):
-                Encoder = new BmpEncoder();
+                _encoder = new BmpEncoder();
                 _targetFileType = "bmp";
                 break;
             case (FileType.Webp):
-                Encoder = new WebpEncoder() { Quality = _compress ? 60 : 75 };
+                _encoder = new WebpEncoder() { Quality = _compress ? 60 : 75 };
                 _targetFileType = "webp";
                 break;
             default:
