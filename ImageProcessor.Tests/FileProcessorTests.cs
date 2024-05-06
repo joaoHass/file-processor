@@ -32,7 +32,7 @@ public class FileProcessorTests
 
         var processedFiles = await processor.ProcessAsync();
 
-        Assert.True(_context.ProcessedFile.Count() == 1);
+        Assert.Equal(1, _context.ProcessedFile.Count());
         Assert.Equal(FileStatus.Success, _context.ProcessedFile.First().StatusId);
         Assert.Equal(FileStatus.Success, processedFiles.First().FileStatus);
     }
@@ -45,8 +45,8 @@ public class FileProcessorTests
         var processor = processorFactory.Create(files, FileType.Jpeg, true, true);
 
         var processedFiles = await processor.ProcessAsync();
-        
-        Assert.True(_context.ProcessedFile.Count() == 1);
+
+        Assert.Equal(1, _context.ProcessedFile.Count());
         Assert.Equal(FileStatus.FailedUnknownFormat, _context.ProcessedFile.First().StatusId);
         Assert.Equal(FileStatus.FailedUnknownFormat, processedFiles.First().FileStatus);
     }
