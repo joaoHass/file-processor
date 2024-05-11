@@ -7,7 +7,7 @@
     "tailwindcss": "^3.4.3"
   },
   "scripts": {
-    "css:build": "npx tailwindcss -i ./Presentation/wwwroot/css/site.css -o ./Presentation/wwwroot/css/styles.css --minify"
+    "css:build": "npx tailwindcss -i ./wwwroot/css/site.css -o ./wwwroot/css/styles.css --minify"
   },
   "keywords": [],
   "author": "",

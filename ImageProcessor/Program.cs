@@ -39,10 +39,8 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Presentation/wwwroot"))
-});
+
+app.UseStaticFiles();
 
 app.UseRouting();
 
