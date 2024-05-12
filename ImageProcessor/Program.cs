@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ImageProcessor.Data;
 using ImageProcessor.Domain;
+using ImageProcessor.Domain.FileStorageStrategy;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
                        throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddScoped<IFileStorageStrategy, LocalFileStorageStrategy>();
+else
+    builder.Services.AddScoped<IFileStorageStrategy, AzureFileStorageStrategy>();
 
 builder.Services.AddTransient<FileProcessorFactory>();
 

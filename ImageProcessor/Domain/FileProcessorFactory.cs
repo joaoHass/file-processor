@@ -1,14 +1,17 @@
 using ImageProcessor.Data;
+using ImageProcessor.Domain.FileStorageStrategy;
 using ImageProcessor.Domain.Models;
 
 namespace ImageProcessor.Domain;
 
 public class FileProcessorFactory {
     private readonly ApplicationDbContext _context;
+    private readonly IFileStorageStrategy _fileStorage;
 
-    public FileProcessorFactory(ApplicationDbContext context)
+    public FileProcessorFactory(ApplicationDbContext context, IFileStorageStrategy fileStorage)
     {
         _context = context;
+        _fileStorage = fileStorage;
     }
     
     public FileProcessor Create(
@@ -18,6 +21,6 @@ public class FileProcessorFactory {
         bool resize = false
         )
     {
-        return new FileProcessor(_context, files, targetFileType, compress, resize );
+        return new FileProcessor(_context, _fileStorage, files, targetFileType, compress, resize );
     }
 }

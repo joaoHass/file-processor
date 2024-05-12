@@ -1,5 +1,6 @@
 using System.IO.Compression;
 using ImageProcessor.Data;
+using ImageProcessor.Domain.FileStorageStrategy;
 using ImageProcessor.Domain.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
@@ -21,12 +22,13 @@ public class FileProcessor
     private readonly ApplicationDbContext _context;
     private readonly bool _resize;
     private readonly bool _compress;
-    private readonly string _folderDestination;
+    private readonly IFileStorageStrategy _fileStorage;
     private readonly IDictionary<MemoryStream, string> _files;
     public IList<ProcessedFile> ProcessedFiles { get; }
 
     public FileProcessor(
             ApplicationDbContext context,
+            IFileStorageStrategy fileStorage,
             IDictionary<MemoryStream, string> files,
             FileType targetFileType,
             bool compress = false,
@@ -34,24 +36,21 @@ public class FileProcessor
         )
     {
         _context = context;
+        _fileStorage = fileStorage;
         _files = files;
         _resize = resize;
         _compress = compress;
         ProcessedFiles = new List<ProcessedFile>();
 
-        _folderDestination = "/usr/local/";
         DefineTargetFileType(targetFileType);
     }
 
     public async Task<IList<ProcessedFile>> ProcessAsync()
     {
-        if (!Path.Exists(_folderDestination))
-            throw new ApplicationException("The target file PATH does not exist.");
-
+        var convertedFileStream = new MemoryStream();
         foreach (var (fileStream, fileName) in _files)
         {
             var newFileName = $"{Guid.NewGuid()}.{_targetFileType}";
-            var filePath = Path.Join(_folderDestination, $"{newFileName}" );
             var currentFile = new ProcessedFile(fileName, newFileName, null, FileStatus.Processing);
             
             try
@@ -66,25 +65,28 @@ public class FileProcessor
                 {
                     image.Mutate(x => x.Resize(image.Width / 2, image.Height / 2));
                 }
-                    
-                await image.SaveAsync(filePath, _encoder);
+
+                await image.SaveAsync(convertedFileStream, _encoder);
+
                 currentFile.FileStatus = FileStatus.Success;
             }
             catch (UnknownImageFormatException) { currentFile.FileStatus = FileStatus.FailedUnknownFormat; }
             catch (NotSupportedException) { currentFile.FileStatus = FileStatus.FailedUnsupportedFormat; }
             catch (Exception e) { currentFile.FileStatus = FileStatus.Failed; }
 
+            var savedFilePath = await _fileStorage.SaveAsync(convertedFileStream, newFileName);
+
+            if (currentFile.FileStatus == FileStatus.Success)
+                currentFile.ConvertedFile = convertedFileStream;
+
             // TODO: Save to DB; if the saving fails, delete the file and save as failed to ProcessedFiles
             _context.Add(new Data.Types.ProcessedFile()
             {
                 OriginalFileName = fileName,
-                FilePath = filePath,
+                FilePath = savedFilePath,
                 StatusId = currentFile.FileStatus
             });
             await _context.SaveChangesAsync();
-
-            if (currentFile.FileStatus == FileStatus.Success)
-                currentFile.ConvertedFile = fileStream;
 
             ProcessedFiles.Add(currentFile);
         }
