@@ -11,7 +11,7 @@ public class AzureFileStorageStrategy: IFileStorageStrategy {
         Path.Combine(_storagePath, "site", "processed_images");
         
         if (!Directory.Exists(_storagePath))
-            throw new DirectoryNotFoundException("The storage path does not exist on Azure!");
+            throw new DirectoryNotFoundException($"The storage path does not exist on Azure! HOME variable: {Environment.ExpandEnvironmentVariables("HOME")}");
     }
 
     public async Task<string> SaveAsync(Stream fileStream, string fileName)
