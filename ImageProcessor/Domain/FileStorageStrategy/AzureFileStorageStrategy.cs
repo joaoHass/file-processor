@@ -7,8 +7,10 @@ public class AzureFileStorageStrategy: IFileStorageStrategy {
     public AzureFileStorageStrategy()
     {
         // https://learn.microsoft.com/en-us/azure/app-service/operating-system-functionality#types-of-file-access-granted-to-an-app
-        _storagePath = Environment.ExpandEnvironmentVariables("%HOME%");
-        Path.Combine(_storagePath, "site", "processed_images");
+        // "site" is the folder where the project resides, it always exists.
+        _storagePath = Path.Combine(Environment.ExpandEnvironmentVariables("%HOME%"), "site");
+
+        _storagePath = Directory.CreateDirectory(Path.Combine(_storagePath, "processed_images")).FullName;
         
         if (!Directory.Exists(_storagePath))
             throw new DirectoryNotFoundException($"The storage path does not exist on Azure! HOME variable: {Environment.ExpandEnvironmentVariables("HOME")}");
