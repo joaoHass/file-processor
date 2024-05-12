@@ -10,10 +10,12 @@ namespace ImageProcessor.Presentation.Controllers;
 public class FileController : Controller
 {
     private readonly FileProcessorFactory _fileProcessorFactory;
+    private readonly ILogger<FileController> _logger;
 
-    public FileController(FileProcessorFactory fileProcessorFactory)
+    public FileController(FileProcessorFactory fileProcessorFactory, ILogger<FileController> logger)
     {
         _fileProcessorFactory = fileProcessorFactory;
+        _logger = logger;
     }
 
     public IActionResult Index()
@@ -52,7 +54,7 @@ public class FileController : Controller
         }
         catch (Exception e)
         {
-            //_logger.LogCritical(e.ToString());
+            _logger.LogError(message: e.ToString(), e);
             return new StatusCodeResult(500);
         }
         
