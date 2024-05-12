@@ -26,8 +26,8 @@ public class AzureFileStorageStrategy: IFileStorageStrategy {
         
         fileStream.Position = 0;
         var filePath = Path.Combine(_storagePath, fileName);
-        await using FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-        await fs.CopyToAsync(fileStream);
+        await using FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+        await fileStream.CopyToAsync(fs);
         
         return filePath;
     }
