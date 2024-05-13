@@ -7,8 +7,7 @@ public class LocalFileStorageStrategy : IFileStorageStrategy {
     public LocalFileStorageStrategy()
     {
         _storagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "processed_images");
-        if (!Directory.Exists(_storagePath))
-            throw new DirectoryNotFoundException("The storage path does not exist on Azure!");
+        Directory.CreateDirectory(_storagePath);
     }
 
     public async Task<string> SaveAsync(Stream fileStream, string fileName)
