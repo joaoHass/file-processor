@@ -2,56 +2,122 @@
     ViewData["Title"] = "File Processing";
 }
 
-<form class="mx-auto flex w-full max-w-xl flex-col gap-4 md:flex-row">
-    <div class="w-full">
-        <label for="dropzone-file" class="border-2 flex h-full min-h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-bray-800 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-            <div class="flex flex-col items-center justify-center pb-6 pt-5">
-                <svg class="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+<form class="mx-auto flex w-full max-w-md md:max-w-xl flex-col gap-12 md:flex-row">
+    <div class="w-full min-h-64 flex flex-col gap-4">
+        <div class="h-4/6 max-h-[20vh] md:max-h-full overflow-x-auto rounded-lg">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Uploaded files
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <span class="sr-only">Action</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-300">
+                            <span>askdlasdksdk.png</span>
+                            <span class="block text-xs font-normal text-gray-700 dark:text-gray-500">1.32MB</span>
+                        </th>
+                        <td class="px-6 py-4 text-right">
+                            <button type="button" class="font-medium hover:underline">
+                                <svg class="text-red-600 dark:text-red-500" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-300">
+                            <span>askdlasdksdk.png</span>
+                            <span class="block text-xs font-normal text-gray-700 dark:text-gray-500">1.32MB</span>
+                        </th>
+                        <td class="px-6 py-4 text-right">
+                            <button type="button" class="font-medium hover:underline">
+                                <svg class="text-red-600 dark:text-red-500" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-300">
+                            <span>askdlasdksdk.png</span>
+                            <span class="block text-xs font-normal text-gray-700 dark:text-gray-500">1.32MB</span>
+                        </th>
+                        <td class="px-6 py-4 text-right">
+                            <button type="button" class="font-medium hover:underline">
+                                <svg class="text-red-600 dark:text-red-500" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <label for="dropzone-file" class="border-2 flex h-2/6 -mt-2 mb-1 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-bray-800 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+            <div class="flex flex-col items-center justify-center py-2">
+                <svg class="mb-1 h-8 w-8 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                 </svg>
-                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                 <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPEG, WEBP or BMP</p>
             </div>
             <input id="dropzone-file" type="file" class="hidden" />
         </label>
-    </div>
-
-    <div>
-        <label for="targetFileType" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Target file type</label>
-        <select id="targetFileType" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option value="png">PNG</option>
-            <option value="jpeg">JPEG</option>
-            <option value="webp">WEBP</option>
-            <option value="bmp">BMP</option>
-        </select>
-
-        <fieldset class="my-6 mt-3.5">
-            <legend class="mb-1 block text-sm font-medium text-gray-900 dark:text-white">Options</legend>
-
-            <div class="mb-2 flex">
-                <div class="flex h-5 items-center">
-                    <input id="shouldCompress" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-blue-500 focus:ring-2 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800">
-                </div>
-                <div class="ms-2 text-sm">
-                    <label for="shouldCompress" class="font-medium text-gray-900 hover:cursor-pointer dark:text-gray-300">Compress</label>
-                    <p class="text-xs font-normal text-gray-500 dark:text-gray-400">Compressing depends on target file type</p>
-                </div>
-            </div>
-
-            <div class="flex">
-                <div class="flex h-5 items-center">
-                    <input id="shouldResize" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-blue-500 focus:ring-2 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800">
-                </div>
-                <div class="ms-2 text-sm">
-                    <label for="shouldResize" class="font-medium text-gray-900 hover:cursor-pointer dark:text-gray-300">Resize</label>
-                    <p class="text-xs font-normal text-gray-500 dark:text-gray-400">Resize by 50%</p>
-                </div>
-            </div>
-        </fieldset>
 
         <button  
             type="submit" 
-            class="me-2 inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            class="md:hidden me-2 inline-flex items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+            <svg aria-hidden="true" role="status" class="me-3 hidden h-4 w-4 animate-spin text-white" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
+                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor" />
+            </svg>
+            <span>Submit</span>
+        </button>
+    </div>
+
+    <div class="flex flex-col">
+        <div>
+            <label for="targetFileType" class="mb-2 block font-medium text-gray-900 dark:text-white">Target file type</label>
+            <select id="targetFileType" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="png">PNG</option>
+                <option value="jpeg">JPEG</option>
+                <option value="webp">WEBP</option>
+                <option value="bmp">BMP</option>
+            </select>
+
+            <fieldset class="my-6 mt-3.5">
+                <legend class="mb-1 block font-medium text-gray-900 dark:text-white">Options</legend>
+
+                <div class="flex flex-col gap-4 justify-around">
+                    <div class="min-w-fit flex flex-1">
+                        <input id="shouldCompress" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-blue-500 focus:ring-2 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800">
+                        <div class="gap-2 min-w-fit flex-1 ms-2 text-sm">
+                            <label for="shouldCompress" class="font-medium text-gray-900 hover:cursor-pointer dark:text-gray-300">Compress</label>
+                            <p class="text-xs leading-5 font-normal text-gray-500 dark:text-gray-400">Compressing depends on target file type</p>
+                        </div>
+                    </div>
+                    <div class="flex min-w-fit flex-1">
+                        <input id="shouldResize" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-blue-500 focus:ring-2 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800">
+                        <div class="gap-2 ms-2 text-sm">
+                            <label for="shouldResize" class="font-medium text-gray-900 hover:cursor-pointer dark:text-gray-300">Resize</label>
+                            <p class="text-xs leading-5 font-normal text-gray-500 dark:text-gray-400">Resize by 50%</p>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <button  
+            type="submit" 
+            class="hidden md:inline-flex me-2 items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
             <svg aria-hidden="true" role="status" class="me-3 hidden h-4 w-4 animate-spin text-white" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
