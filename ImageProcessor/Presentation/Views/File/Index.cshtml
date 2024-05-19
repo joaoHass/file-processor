@@ -2,65 +2,22 @@
     ViewData["Title"] = "File Processing";
 }
 
-<form class="mx-auto flex w-full max-w-md md:max-w-xl flex-col gap-12 md:flex-row">
+<form class="mx-auto flex w-full max-w-md md:max-h-80 md:max-w-xl flex-col gap-12 md:flex-row">
     <div class="w-full min-h-64 flex flex-col gap-4">
         <div class="h-4/6 max-h-[20vh] md:max-h-full overflow-x-auto rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <table class="w-full md:h-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 dark:border-gray-700">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             Uploaded files
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            <span class="sr-only">Action</span>
-                        </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-300">
-                            <span>askdlasdksdk.png</span>
-                            <span class="block text-xs font-normal text-gray-700 dark:text-gray-500">1.32MB</span>
-                        </th>
-                        <td class="px-6 py-4 text-right">
-                            <button type="button" class="font-medium hover:underline">
-                                <svg class="text-red-600 dark:text-red-500" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-300">
-                            <span>askdlasdksdk.png</span>
-                            <span class="block text-xs font-normal text-gray-700 dark:text-gray-500">1.32MB</span>
-                        </th>
-                        <td class="px-6 py-4 text-right">
-                            <button type="button" class="font-medium hover:underline">
-                                <svg class="text-red-600 dark:text-red-500" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-300">
-                            <span>askdlasdksdk.png</span>
-                            <span class="block text-xs font-normal text-gray-700 dark:text-gray-500">1.32MB</span>
-                        </th>
-                        <td class="px-6 py-4 text-right">
-                            <button type="button" class="font-medium hover:underline">
-                                <svg class="text-red-600 dark:text-red-500" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
+                    <tbody class="block h-full overflow-auto"></tbody>
             </table>
         </div>
 
-        <label for="dropzone-file" class="border-2 flex h-2/6 -mt-2 mb-1 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-bray-800 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+        <label for="dropzone-file" class="border-2 flex h-2/6 -mt-2 mb-1 md:m-0 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-bray-800 dark:hover:border-gray-500 dark:hover:bg-gray-600">
             <div class="flex flex-col items-center justify-center py-2">
                 <svg class="mb-1 h-8 w-8 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
@@ -68,7 +25,7 @@
                 <p class="text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                 <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPEG, WEBP or BMP</p>
             </div>
-            <input id="dropzone-file" type="file" class="hidden" />
+            <input id="dropzone-file" type="file" class="hidden" multiple/>
         </label>
 
         <button  
@@ -83,7 +40,7 @@
         </button>
     </div>
 
-    <div class="flex flex-col">
+    <div class="flex flex-col md:justify-between">
         <div>
             <label for="targetFileType" class="mb-2 block font-medium text-gray-900 dark:text-white">Target file type</label>
             <select id="targetFileType" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -131,9 +88,42 @@
 @section Scripts
 {
     <script>
-        const inputFiles = document.querySelector('input[type="file"]')
-        const submitButton = document.querySelector("form button[type='submit']")
-        
+        const submitButton = [...document.querySelectorAll("form button[type='submit']")]
+            .find(s => window.getComputedStyle(s).getPropertyValue('display') !== 'none')
+
+        let files = []
+
+        // We only want to add new files to upload every time the user input something,
+        // as the delete operation is handled in the table containing all the selected files.
+        document.querySelector("input[type='file']").addEventListener("change", e => {
+            // TODO: Implement a better warning
+            if (e.target.files.length + files.length > 10) {
+                alert("You can't upload more than 10 files!")
+                return false
+            }
+
+            for (const file of e.target.files) {
+                // TODO: Implement a better warning
+                if (files.some(f => f.name === file.name && f.size === file.size && f.type === file.type)) {
+                    alert(`The file ${file.name} was not uploaded due to already being uploaded.`)
+                    continue
+                }
+
+                // TODO: Implement a better warning
+                if (file.size > 5242880) {
+                    alert(`The file ${file.name} was not uploaded due to being over 5MB.`)
+                    continue
+                }
+
+                createUploadFileItem(file)
+                files = [...files, file]
+            }
+
+            // We need to reset the input so it triggers properly if the person
+            // upload the same file again, for example
+            e.target.value = ''
+        })
+
         document.querySelector("form").addEventListener('submit', e => {
             e.preventDefault()
 
@@ -144,7 +134,7 @@
             
             let data = new FormData()
             
-            for (const file of inputFiles.files) {
+            for (let file of files) {
                 data.append('files', file)
             }
             data.append('targetFileType', document.querySelector('#targetFileType').value)
@@ -156,6 +146,7 @@
                 body: data
             })
             .then(response => {
+                // TODO: fix the error message
                 if (!response.ok) {
                     throw new Error(`Http error! Error: ${response}`)
                 }
@@ -178,5 +169,49 @@
             })
             .catch(error => console.log(error))
         })
+
+        function createUploadFileItem(fileHTML) {
+            const sizeInMBs = (fileHTML.size / 1048576).toFixed(2)
+            const lastId = document.querySelectorAll("table tbody tr").length - 1
+
+            const uploadFileHtml = `
+                <tr class="table table-fixed w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" data-item-id="${lastId + 1}">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-300">
+                        <span>${fileHTML.name}</span>
+                        <span class="block text-xs font-normal text-gray-700 dark:text-gray-500">${sizeInMBs}MB</span>
+                    </th>
+                    <td class="px-6 py-4 text-right">
+                        <button type="button" class="font-medium hover:underline">
+                            <svg class="text-red-600 dark:text-red-500" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </td>
+                </tr>`
+
+            const wrapper = document.createElement('template')
+            wrapper.innerHTML = uploadFileHtml.trim()
+            const resultElement = wrapper.content.children[0]
+
+            document.querySelector("table tbody").appendChild(resultElement)
+            resultElement.querySelector('button').addEventListener('click', () => {
+                resultElement.remove()
+                files = files.filter(f => fileToJSON(f) !== fileToJSON(fileHTML))
+            })
+        }
+
+        // File objects can't be stringfied to json, so we neeed to do a work around
+        // https://stackoverflow.com/a/29281243/15638373
+        function fileToJSON(file) {
+            const newObject = {
+                'lastModified'      : file.lastModified,
+                'lastModifiedDate'  : file.lastModifiedDate,
+                'name'              : file.name,
+                'size'              : file.size,
+                'type'              : file.type
+            }
+
+            return JSON.stringify(newObject)
+        }
     </script>
 }
