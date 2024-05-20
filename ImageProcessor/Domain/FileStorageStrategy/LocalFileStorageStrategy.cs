@@ -1,12 +1,15 @@
 namespace ImageProcessor.Domain.FileStorageStrategy;
 
-public class LocalFileStorageStrategy : IFileStorageStrategy {
-    
+public class LocalFileStorageStrategy : IFileStorageStrategy
+{
     private readonly string _storagePath;
 
     public LocalFileStorageStrategy()
     {
-        _storagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "processed_images");
+        _storagePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+            "processed_images"
+        );
         Directory.CreateDirectory(_storagePath);
     }
 
@@ -14,15 +17,15 @@ public class LocalFileStorageStrategy : IFileStorageStrategy {
     {
         if (fileStream == null)
             throw new ArgumentNullException();
-        
+
         if (string.IsNullOrWhiteSpace(fileName))
             throw new ArgumentException("fileName");
-        
+
         fileStream.Position = 0;
         var filePath = Path.Combine(_storagePath, fileName);
         await using FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
         await fileStream.CopyToAsync(fs);
-        
+
         return filePath;
     }
 }

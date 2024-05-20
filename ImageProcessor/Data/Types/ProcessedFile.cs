@@ -9,7 +9,7 @@ namespace ImageProcessor.Data.Types;
 public class ProcessedFile : IEntity
 {
     public int Id { get; private set; }
-    public required string OriginalFileName { get; set;}
+    public required string OriginalFileName { get; set; }
     public required string FilePath { get; set; }
     public required FileStatus StatusId { get; set; }
     public DateTimeOffset CreatedAt { get; private init; } = DateTimeOffset.UtcNow;

@@ -6,8 +6,13 @@ public class ProcessedFile
     public string NewName { get; private set; }
     public MemoryStream? ConvertedFile { get; set; }
     public FileStatus FileStatus { get; set; }
-    
-    public ProcessedFile(string originalName, string newName, MemoryStream? convertedImage, FileStatus fileStatus)
+
+    public ProcessedFile(
+        string originalName,
+        string newName,
+        MemoryStream? convertedImage,
+        FileStatus fileStatus
+    )
     {
         OriginalName = originalName;
         NewName = newName;

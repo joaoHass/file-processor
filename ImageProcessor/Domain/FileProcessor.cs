@@ -17,6 +17,7 @@ public class FileProcessor
     // Defined inside the constructor using DefineTargetFileType, will never be null
     private ImageEncoder _encoder = null!;
     private string _targetFileType = null!;
+
     //
 
     private readonly ApplicationDbContext _context;
@@ -27,13 +28,13 @@ public class FileProcessor
     public IList<ProcessedFile> ProcessedFiles { get; }
 
     public FileProcessor(
-            ApplicationDbContext context,
-            IFileStorageStrategy fileStorage,
-            IDictionary<MemoryStream, string> files,
-            FileType targetFileType,
-            bool compress = false,
-            bool resize = false
-        )
+        ApplicationDbContext context,
+        IFileStorageStrategy fileStorage,
+        IDictionary<MemoryStream, string> files,
+        FileType targetFileType,
+        bool compress = false,
+        bool resize = false
+    )
     {
         _context = context;
         _fileStorage = fileStorage;
@@ -53,7 +54,7 @@ public class FileProcessor
             convertedFileStream = new MemoryStream();
             var newFileName = $"{Guid.NewGuid()}.{_targetFileType}";
             var currentFile = new ProcessedFile(fileName, newFileName, null, FileStatus.Processing);
-            
+
             try
             {
                 fileStream.Position = 0;
@@ -61,19 +62,26 @@ public class FileProcessor
                 fileStream.Position = 0;
 
                 using var image = await Image.LoadAsync(fileStream);
-                
+
                 if (_resize)
-                {
                     image.Mutate(x => x.Resize(image.Width / 2, image.Height / 2));
-                }
 
                 await image.SaveAsync(convertedFileStream, _encoder);
 
                 currentFile.FileStatus = FileStatus.Success;
             }
-            catch (UnknownImageFormatException) { currentFile.FileStatus = FileStatus.FailedUnknownFormat; }
-            catch (NotSupportedException) { currentFile.FileStatus = FileStatus.FailedUnsupportedFormat; }
-            catch (Exception e) { currentFile.FileStatus = FileStatus.Failed; }
+            catch (UnknownImageFormatException)
+            {
+                currentFile.FileStatus = FileStatus.FailedUnknownFormat;
+            }
+            catch (NotSupportedException)
+            {
+                currentFile.FileStatus = FileStatus.FailedUnsupportedFormat;
+            }
+            catch (Exception e)
+            {
+                currentFile.FileStatus = FileStatus.Failed;
+            }
 
             var savedFilePath = await _fileStorage.SaveAsync(convertedFileStream, newFileName);
 
@@ -81,12 +89,14 @@ public class FileProcessor
                 currentFile.ConvertedFile = convertedFileStream;
 
             // TODO: Save to DB; if the saving fails, delete the file and save as failed to ProcessedFiles
-            _context.Add(new Data.Types.ProcessedFile()
-            {
-                OriginalFileName = fileName,
-                FilePath = savedFilePath,
-                StatusId = currentFile.FileStatus
-            });
+            _context.Add(
+                new Data.Types.ProcessedFile()
+                {
+                    OriginalFileName = fileName,
+                    FilePath = savedFilePath,
+                    StatusId = currentFile.FileStatus
+                }
+            );
             await _context.SaveChangesAsync();
 
             ProcessedFiles.Add(currentFile);
@@ -98,7 +108,7 @@ public class FileProcessor
     public async Task<byte[]> ReturnProcessedFileAsZip()
     {
         byte[]? result = null;
-        
+
         using (var zipArchiveMemoryStream = new MemoryStream())
         using (var zipArchive = new ZipArchive(zipArchiveMemoryStream, ZipArchiveMode.Create, true))
         {
@@ -106,20 +116,19 @@ public class FileProcessor
             {
                 if (file.FileStatus != FileStatus.Success)
                     continue;
-                
+
                 var zipEntry = zipArchive.CreateEntry(file.NewName, CompressionLevel.Fastest);
                 await using (BinaryWriter writer = new BinaryWriter(zipEntry.Open()))
                 {
                     writer.Write(file.ConvertedFile.ToArray());
                     writer.Close();
                 }
-                
             }
 
             zipArchiveMemoryStream.Position = 0;
             result = zipArchiveMemoryStream.ToArray();
-        } 
-        
+        }
+
         return result;
     }
 
@@ -140,7 +149,7 @@ public class FileProcessor
                 _targetFileType = "png";
                 break;
             case (FileType.Jpeg):
-                _encoder = new JpegEncoder() { Quality = _compress ? 60 : 75};
+                _encoder = new JpegEncoder() { Quality = _compress ? 60 : 75 };
                 _targetFileType = "jpeg";
                 break;
             case (FileType.Bmp):

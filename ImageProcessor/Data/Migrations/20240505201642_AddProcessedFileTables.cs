@@ -23,7 +23,8 @@ namespace ImageProcessor.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProcessedFileStatus", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.InsertData(
                 table: "ProcessedFileStatus",
@@ -34,14 +35,16 @@ namespace ImageProcessor.Data.Migrations
                     { 2, "Failed" },
                     { 3, "FailedUnsupportedFormat" },
                     { 4, "FailedUnknownFormat" }
-                });
-            
+                }
+            );
+
             //
             migrationBuilder.CreateTable(
                 name: "ProcessedFile",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table
+                        .Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     OriginalFileName = table.Column<string>(type: "TEXT", nullable: false),
                     FilePath = table.Column<string>(type: "TEXT", nullable: false),
@@ -55,23 +58,24 @@ namespace ImageProcessor.Data.Migrations
                         name: "FK_ProcessedFile_ProcessedFileStatus_StatusId",
                         column: x => x.StatusId,
                         principalTable: "ProcessedFileStatus",
-                        principalColumn: "Id");
-                });
-            
+                        principalColumn: "Id"
+                    );
+                }
+            );
+
             migrationBuilder.CreateIndex(
                 name: "IX_ProcessedFile_StatusId",
                 table: "ProcessedFile",
-                column: "StatusId");
+                column: "StatusId"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ProcessedFile");
+            migrationBuilder.DropTable(name: "ProcessedFile");
 
-            migrationBuilder.DropTable(
-                name: "ProcessedFileStatus");
+            migrationBuilder.DropTable(name: "ProcessedFileStatus");
         }
     }
 }

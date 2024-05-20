@@ -13,16 +13,16 @@ public class DbContextFactory : IDisposable
     {
         _connection = new SqliteConnection("DataSource=:memory:");
         _connection.OpenAsync();
-        
+
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseSqlite(_connection)
             .Options;
-        
+
         _context = new ApplicationDbContext(options);
         _context.Database.Migrate();
         _context.SaveChanges();
     }
-    
+
     public ApplicationDbContext Create()
     {
         return _context;
