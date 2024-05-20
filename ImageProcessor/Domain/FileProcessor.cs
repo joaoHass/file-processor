@@ -47,9 +47,10 @@ public class FileProcessor
 
     public async Task<IList<ProcessedFile>> ProcessAsync()
     {
-        var convertedFileStream = new MemoryStream();
+        MemoryStream convertedFileStream;
         foreach (var (fileStream, fileName) in _files)
         {
+            convertedFileStream = new MemoryStream();
             var newFileName = $"{Guid.NewGuid()}.{_targetFileType}";
             var currentFile = new ProcessedFile(fileName, newFileName, null, FileStatus.Processing);
             
