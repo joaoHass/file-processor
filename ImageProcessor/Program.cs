@@ -1,6 +1,5 @@
 using ImageProcessor.Data;
-using ImageProcessor.Domain;
-using ImageProcessor.Domain.FileStorageStrategy;
+using ImageProcessor.Features.File.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -31,11 +30,12 @@ builder
     .Services.AddControllersWithViews()
     .AddRazorOptions(options =>
     {
-        options.ViewLocationFormats.Add("/Presentation/Views/Shared/{0}.cshtml");
-        options.ViewLocationFormats.Add("/Presentation/Views/{1}/{0}.cshtml");
+        options.ViewLocationFormats.Clear();
+        options.ViewLocationFormats.Add("/Features/{1}/Presentation/Views/{0}.cshtml");
+        options.ViewLocationFormats.Add("/Components/Presentation/Views/Shared/{0}.cshtml");
     });
 
-var app = builder.Build();
+    var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

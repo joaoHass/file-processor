@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
@@ -9,15 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
+        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.1"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1" />
         <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
     </ItemGroup>
 
@@ -84,24 +84,38 @@
     </ItemGroup>
 	
 	<ItemGroup>
-	  <UpToDateCheckBuilt Include="Presentation/wwwroot/css/site.css" Set="Css" />
+	  <UpToDateCheckBuilt Include="wwwroot/css/site.css" Set="Css" />
 	  <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
 	</ItemGroup>
 
 	<Target Name="Tailwind" BeforeTargets="Build">
-	  <Exec Command="npm run css:build"/>
+	  <Exec Command="npm run css:build" />
 	</Target>
 
     <ItemGroup>
-      <AdditionalFiles Include="Presentation\Areas\Identity\Pages\_ViewStart.cshtml" />
-      <AdditionalFiles Include="Presentation\Views\Home\Index.cshtml" />
-      <AdditionalFiles Include="Presentation\Views\Home\Privacy.cshtml" />
-      <AdditionalFiles Include="Presentation\Views\Shared\Error.cshtml" />
-      <AdditionalFiles Include="Presentation\Views\Shared\_Layout.cshtml" />
-      <AdditionalFiles Include="Presentation\Views\Shared\_LoginPartial.cshtml" />
-      <AdditionalFiles Include="Presentation\Views\Shared\_ValidationScriptsPartial.cshtml" />
-      <AdditionalFiles Include="Presentation\Views\_ViewImports.cshtml" />
-      <AdditionalFiles Include="Presentation\Views\_ViewStart.cshtml" />
+      <AdditionalFiles Include="Features\Home\Presentation\Views\Index.cshtml" />
+      <AdditionalFiles Include="Features\Home\Presentation\Views\Privacy.cshtml" />
+      <AdditionalFiles Include="Components\Presentation\Views\Shared\Error.cshtml" />
+      <AdditionalFiles Include="Components\Presentation\Views\Shared\_LoginPartial.cshtml" />
+      <AdditionalFiles Include="Components\Presentation\Views\Shared\_ValidationScriptsPartial.cshtml" />
+      <AdditionalFiles Include="Components\Presentation\Views\_ViewImports.cshtml" />
+      <AdditionalFiles Include="Features\File\Presentation\_ViewStart.cshtml" />
+      <AdditionalFiles Include="Features\Home\Presentation\_ViewStart.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="Components\Presentation\Views\Shared\Error.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Components\Presentation\Views\Shared\_LoginPartial.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Components\Presentation\Views\Shared\_ValidationScriptsPartial.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

@@ -1,10 +1,8 @@
 using System.Net;
 using ImageProcessor.Data;
-using ImageProcessor.Domain;
-using ImageProcessor.Domain.FileStorageStrategy;
-using ImageProcessor.Domain.Models;
-using ImageProcessor.Presentation.Controllers;
-using ImageProcessor.Presentation.Models;
+using ImageProcessor.Features.File.Domain;
+using ImageProcessor.Features.File.Domain.Enums;
+using ImageProcessor.Features.File.Presentation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
