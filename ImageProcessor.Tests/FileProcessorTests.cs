@@ -28,7 +28,7 @@ public class FileProcessorTests
     }
 
     [Fact]
-    public async void Valid_files_should_be_processed_successfully()
+    public async Task Valid_files_should_be_processed_successfully()
     {
         var files = CreateValidFile();
         var processorFactory = new FileProcessorFactory(_context, _fileStorage);
@@ -42,7 +42,7 @@ public class FileProcessorTests
     }
 
     [Fact]
-    public async void Invalid_files_should_be_processed_as_failed()
+    public async Task Invalid_files_should_be_processed_as_failed()
     {
         var files = CreateInvalidFile();
         var processorFactory = new FileProcessorFactory(_context, _fileStorage);
@@ -56,7 +56,7 @@ public class FileProcessorTests
     }
 
     [Fact]
-    public async void Failed_files_should_return_null_for_the_resulting_stream()
+    public async Task Failed_files_should_return_null_for_the_resulting_stream()
     {
         var files = CreateInvalidFile();
         var processor = new FileProcessorFactory(_context, _fileStorage).Create(
@@ -72,7 +72,7 @@ public class FileProcessorTests
     }
 
     [Fact]
-    public async void UploadFiles_should_reject_requests_when_files_property_is_null()
+    public async Task UploadFiles_should_reject_requests_when_files_property_is_null()
     {
         var controller = new FileController(
             new FileProcessorFactory(_context, _fileStorage),
@@ -89,7 +89,7 @@ public class FileProcessorTests
     }
 
     [Fact]
-    public async void UploadFiles_should_reject_requests_that_contains_files_larger_than_5mb()
+    public async Task UploadFiles_should_reject_requests_that_contains_files_larger_than_5mb()
     {
         var controller = new FileController(
             new FileProcessorFactory(_context, _fileStorage),
@@ -112,7 +112,7 @@ public class FileProcessorTests
     }
 
     [Fact]
-    public async void UploadFiles_should_reject_requests_with_more_than_10_files()
+    public async Task UploadFiles_should_reject_requests_with_more_than_10_files()
     {
         var controller = new FileController(
             new FileProcessorFactory(_context, _fileStorage),
