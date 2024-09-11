@@ -107,25 +107,22 @@ public class FileProcessor
     {
         byte[]? result = null;
 
-        using (var zipArchiveMemoryStream = new MemoryStream())
-        using (var zipArchive = new ZipArchive(zipArchiveMemoryStream, ZipArchiveMode.Create, true))
+        using var zipArchiveMemoryStream = new MemoryStream();
+        using var zipArchive = new ZipArchive(zipArchiveMemoryStream, ZipArchiveMode.Create, true);
+        foreach (var file in ProcessedFiles)
         {
-            foreach (var file in ProcessedFiles)
-            {
-                if (file.FileStatus != FileStatus.Success)
-                    continue;
+            if (file.FileStatus != FileStatus.Success)
+                continue;
 
-                var zipEntry = zipArchive.CreateEntry(file.NewName, CompressionLevel.Fastest);
-                await using (BinaryWriter writer = new BinaryWriter(zipEntry.Open()))
-                {
-                    writer.Write(file.ConvertedFile.ToArray());
-                    writer.Close();
-                }
-            }
-
-            zipArchiveMemoryStream.Position = 0;
-            result = zipArchiveMemoryStream.ToArray();
+            var zipEntry = zipArchive.CreateEntry(file.NewName, CompressionLevel.Fastest);
+            await using BinaryWriter writer = new BinaryWriter(zipEntry.Open();
+         
+            writer.Write(file.ConvertedFile!.ToArray());
+            writer.Close();
         }
+
+        zipArchiveMemoryStream.Position = 0;
+        result = zipArchiveMemoryStream.ToArray();
 
         return result;
     }
