@@ -115,7 +115,7 @@ public class FileProcessor
                 continue;
 
             var zipEntry = zipArchive.CreateEntry(file.NewName, CompressionLevel.Fastest);
-            await using BinaryWriter writer = new BinaryWriter(zipEntry.Open();
+            await using var writer = new BinaryWriter(zipEntry.Open());
          
             writer.Write(file.ConvertedFile!.ToArray());
             writer.Close();
