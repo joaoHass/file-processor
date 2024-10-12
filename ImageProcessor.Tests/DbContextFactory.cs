@@ -32,5 +32,8 @@ public class DbContextFactory : IDisposable
     {
         _context.Database.EnsureDeleted();
         _connection.Close();
+
+        //https://learn.microsoft.com/pt-br/dotnet/fundamentals/code-analysis/quality-rules/ca1816
+        GC.SuppressFinalize(this);
     }
 }
