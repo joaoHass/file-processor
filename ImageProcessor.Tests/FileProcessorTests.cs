@@ -21,7 +21,7 @@ public class FileProcessorTests
     public FileProcessorTests(ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
-        _filesPath = "C:\\Users\\Hass\\Documents\\file-processor\\ImageProcessor.Tests\\TestFiles";
+        _filesPath = Path.Join(GetSolutionDirectoryInfo().FullName, "ImageProcessor.Tests", "TestFiles");
         _context = new DbContextFactory().Create();
         _fileStorage = new LocalFileStorageStrategy();
         _logger = _testOutputHelper.BuildLoggerFor<FileController>();
@@ -175,5 +175,15 @@ public class FileProcessorTests
         }
 
         return new Dictionary<MemoryStream, string> { { ms, "valid_test_file.png" } };
+    }
+
+    private static DirectoryInfo GetSolutionDirectoryInfo()
+    {
+        var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
+        while (directory != null && directory.GetFiles("*.sln").Length == 0)
+        {
+            directory = directory.Parent;
+        }
+        return directory!;
     }
 }
